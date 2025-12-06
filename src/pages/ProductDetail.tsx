@@ -7,31 +7,11 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { useState } from 'react';
 
-// Different angle/detail images for products
+// Gallery shows the same product image (simulating different angles)
+// In production, each product would have its own set of photos
 const getProductGalleryImages = (product: typeof products[0]) => {
-  const baseImages: Record<string, string[]> = {
-    'joia': [
-      'https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?w=400',
-      'https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=400',
-      'https://images.unsplash.com/photo-1611085583191-a3b181a88401?w=400',
-      'https://images.unsplash.com/photo-1602751584552-8ba73aad10e1?w=400',
-    ],
-    'piercing': [
-      'https://images.unsplash.com/photo-1630019852942-f89202989a59?w=400',
-      'https://images.unsplash.com/photo-1632345031435-8727f6897d53?w=400',
-      'https://images.unsplash.com/photo-1594736797933-d0501ba2fe65?w=400',
-      'https://images.unsplash.com/photo-1588592806941-d4cbf4f1b9c3?w=400',
-    ],
-    'tattoo': [
-      'https://images.unsplash.com/photo-1590246814883-57c511e76a52?w=400',
-      'https://images.unsplash.com/photo-1611501275019-9b5cda994e8d?w=400',
-      'https://images.unsplash.com/photo-1560707854-fb9a10eeaace?w=400',
-      'https://images.unsplash.com/photo-1542727313-4f3e99aa2568?w=400',
-    ],
-  };
-  
-  const categoryImages = baseImages[product.category] || baseImages['joia'];
-  return [product.image, ...categoryImages.filter(img => img !== product.image).slice(0, 3)];
+  // Using the same image 4 times to represent different angles of the same product
+  return [product.image, product.image, product.image, product.image];
 };
 
 const ProductDetailContent = () => {
