@@ -6,26 +6,44 @@ import { Search } from 'lucide-react';
 
 const ProductGrid = () => {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [selectedSubcategory, setSelectedSubcategory] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
+
+  const handleSelectCategory = (category: string | null, subcategory: string | null) => {
+    setSelectedCategory(category);
+    setSelectedSubcategory(subcategory);
+  };
 
   const filteredProducts = useMemo(() => {
     return products.filter((product) => {
       const matchesCategory = selectedCategory ? product.category === selectedCategory : true;
+      const matchesSubcategory = selectedSubcategory ? product.subcategory === selectedSubcategory : true;
       const matchesSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
                            product.description.toLowerCase().includes(searchTerm.toLowerCase());
-      return matchesCategory && matchesSearch;
+      return matchesCategory && matchesSubcategory && matchesSearch;
     });
-  }, [selectedCategory, searchTerm]);
+  }, [selectedCategory, selectedSubcategory, searchTerm]);
+
+  const getCategoryTitle = () => {
+    if (!selectedCategory && !selectedSubcategory) return 'NOSSOS PRODUTOS';
+    if (selectedSubcategory) return selectedSubcategory.toUpperCase();
+    return selectedCategory?.toUpperCase() + 'S';
+  };
 
   return (
     <section id="produtos" className="py-16">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
           <h2 className="text-4xl md:text-5xl font-display gradient-text mb-4">
-            NOSSOS PRODUTOS
+            {getCategoryTitle()}
           </h2>
           <p className="text-muted-foreground max-w-2xl mx-auto">
-            Descubra nossa seleção exclusiva de joias para piercing, serviços de tatuagem e muito mais
+            {selectedSubcategory 
+              ? `Explore nossa coleção de ${selectedSubcategory}`
+              : selectedCategory
+                ? `Descubra nossa seleção de ${selectedCategory}s`
+                : 'Descubra nossa seleção exclusiva de joias para piercing, serviços de tatuagem e muito mais'
+            }
           </p>
         </div>
 
@@ -46,7 +64,8 @@ const ProductGrid = () => {
         <div className="flex flex-col lg:flex-row gap-8">
           <CategorySidebar 
             selectedCategory={selectedCategory}
-            onSelectCategory={setSelectedCategory}
+            selectedSubcategory={selectedSubcategory}
+            onSelectCategory={handleSelectCategory}
           />
           
           <div className="flex-1">
@@ -59,7 +78,7 @@ const ProductGrid = () => {
             ) : (
               <div className="text-center py-12">
                 <p className="text-muted-foreground text-lg">
-                  Nenhum produto encontrado.
+                  Nenhum produto encontrado nesta categoria.
                 </p>
               </div>
             )}

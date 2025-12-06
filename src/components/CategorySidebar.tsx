@@ -4,7 +4,8 @@ import { categories } from '@/data/products';
 
 interface CategorySidebarProps {
   selectedCategory: string | null;
-  onSelectCategory: (category: string | null) => void;
+  selectedSubcategory: string | null;
+  onSelectCategory: (category: string | null, subcategory: string | null) => void;
 }
 
 const categoryIcons: Record<string, React.ReactNode> = {
@@ -13,7 +14,7 @@ const categoryIcons: Record<string, React.ReactNode> = {
   joia: <Gem className="h-5 w-5" />,
 };
 
-const CategorySidebar = ({ selectedCategory, onSelectCategory }: CategorySidebarProps) => {
+const CategorySidebar = ({ selectedCategory, selectedSubcategory, onSelectCategory }: CategorySidebarProps) => {
   const [expandedCategories, setExpandedCategories] = useState<string[]>(['piercing', 'tattoo', 'joia']);
 
   const toggleExpand = (categoryId: string) => {
@@ -30,9 +31,9 @@ const CategorySidebar = ({ selectedCategory, onSelectCategory }: CategorySidebar
         <h3 className="text-xl font-display gradient-text mb-6">CATEGORIAS</h3>
         
         <button
-          onClick={() => onSelectCategory(null)}
+          onClick={() => onSelectCategory(null, null)}
           className={`w-full text-left py-3 px-4 rounded-lg mb-2 transition-all ${
-            selectedCategory === null 
+            selectedCategory === null && selectedSubcategory === null
               ? 'bg-gradient-to-r from-warm-yellow/20 via-warm-orange/20 to-warm-red/20 text-primary' 
               : 'text-foreground/70 hover:bg-secondary'
           }`}
@@ -45,11 +46,13 @@ const CategorySidebar = ({ selectedCategory, onSelectCategory }: CategorySidebar
             <div key={category.id}>
               <button
                 onClick={() => {
-                  onSelectCategory(category.id);
-                  toggleExpand(category.id);
+                  onSelectCategory(category.id, null);
+                  if (!expandedCategories.includes(category.id)) {
+                    toggleExpand(category.id);
+                  }
                 }}
                 className={`w-full flex items-center justify-between py-3 px-4 rounded-lg transition-all ${
-                  selectedCategory === category.id 
+                  selectedCategory === category.id && selectedSubcategory === null
                     ? 'bg-gradient-to-r from-warm-yellow/20 via-warm-orange/20 to-warm-red/20 text-primary' 
                     : 'text-foreground/70 hover:bg-secondary'
                 }`}
@@ -63,7 +66,11 @@ const CategorySidebar = ({ selectedCategory, onSelectCategory }: CategorySidebar
                 <ChevronDown 
                   className={`h-4 w-4 transition-transform ${
                     expandedCategories.includes(category.id) ? 'rotate-180' : ''
-                  }`} 
+                  }`}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    toggleExpand(category.id);
+                  }}
                 />
               </button>
               
@@ -72,7 +79,12 @@ const CategorySidebar = ({ selectedCategory, onSelectCategory }: CategorySidebar
                   {category.subcategories.map((sub) => (
                     <button
                       key={sub}
-                      className="w-full text-left py-2 px-4 text-sm text-muted-foreground hover:text-primary transition-colors capitalize"
+                      onClick={() => onSelectCategory(category.id, sub)}
+                      className={`w-full text-left py-2 px-4 text-sm rounded-md transition-colors capitalize ${
+                        selectedCategory === category.id && selectedSubcategory === sub
+                          ? 'bg-primary/20 text-primary font-medium'
+                          : 'text-muted-foreground hover:text-primary hover:bg-secondary/50'
+                      }`}
                     >
                       {sub}
                     </button>
