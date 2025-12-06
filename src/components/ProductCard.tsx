@@ -45,28 +45,27 @@ const ProductCard = ({ product }: ProductCardProps) => {
         </div>
       </div>
       
-      <div className="p-2 sm:p-4">
-        <span className="text-[10px] sm:text-xs text-primary font-medium uppercase tracking-wider line-clamp-1">
+      <div className="p-3 md:p-4">
+        <span className="text-[10px] md:text-xs text-primary font-medium uppercase tracking-wider line-clamp-1">
           {product.category} {product.subcategory && `• ${product.subcategory}`}
         </span>
-        <h3 className="font-display text-sm sm:text-lg text-foreground mt-1 mb-1 sm:mb-2 line-clamp-2">
+        <h3 className="font-display text-sm md:text-lg text-foreground mt-1 mb-1 md:mb-2 line-clamp-2">
           {product.name}
         </h3>
-        <p className="hidden sm:block text-sm text-muted-foreground line-clamp-2 mb-3">
+        <p className="hidden md:block text-sm text-muted-foreground line-clamp-2 mb-3">
           {product.description}
         </p>
         
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
-          <span className="text-base sm:text-xl font-bold gradient-text">
+        <div className="flex items-center justify-between gap-2 mt-2">
+          <span className="text-sm md:text-xl font-bold gradient-text">
             R$ {product.price.toFixed(2)}
           </span>
           <button 
             onClick={handleAddToCart}
-            className="flex items-center gap-1 sm:gap-2 px-2 sm:px-4 py-1.5 sm:py-2 rounded-full bg-gradient-to-r from-warm-yellow via-warm-orange to-warm-red text-primary-foreground font-medium text-[10px] sm:text-sm transition-all hover:opacity-90 hover:scale-105"
+            className="flex items-center justify-center gap-1 md:gap-2 px-2 md:px-4 py-1.5 md:py-2 rounded-full bg-gradient-to-r from-warm-yellow via-warm-orange to-warm-red text-primary-foreground font-medium text-[10px] md:text-sm transition-all hover:opacity-90 hover:scale-105 shrink-0"
           >
-            <ShoppingBag className="h-3 w-3 sm:h-4 sm:w-4" />
-            <span className="hidden xs:inline">Comprar</span>
-            <span className="xs:hidden">+</span>
+            <ShoppingBag className="h-3 w-3 md:h-4 md:w-4" />
+            <span className="hidden sm:inline">Comprar</span>
           </button>
         </div>
       </div>

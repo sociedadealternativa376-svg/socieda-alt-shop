@@ -2,6 +2,7 @@ import { useState, useMemo } from 'react';
 import { products } from '@/data/products';
 import ProductCard from './ProductCard';
 import CategorySidebar from './CategorySidebar';
+import MobileCategoryFilter from './MobileCategoryFilter';
 import { Search } from 'lucide-react';
 
 const ProductGrid = () => {
@@ -12,7 +13,6 @@ const ProductGrid = () => {
   const handleSelectCategory = (category: string | null, subcategory: string | null) => {
     setSelectedCategory(category);
     setSelectedSubcategory(subcategory);
-    // Scroll to top of products section
     const productsSection = document.getElementById('produtos');
     if (productsSection) {
       productsSection.scrollIntoView({ behavior: 'smooth' });
@@ -36,13 +36,13 @@ const ProductGrid = () => {
   };
 
   return (
-    <section id="produtos" className="py-16">
+    <section id="produtos" className="py-8 md:py-16">
       <div className="container mx-auto px-4">
-        <div className="text-center mb-12">
-          <h2 className="text-4xl md:text-5xl font-display gradient-text mb-4">
+        <div className="text-center mb-6 md:mb-12">
+          <h2 className="text-3xl md:text-5xl font-display gradient-text mb-2 md:mb-4">
             {getCategoryTitle()}
           </h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto">
+          <p className="text-sm md:text-base text-muted-foreground max-w-2xl mx-auto">
             {selectedSubcategory 
               ? `Explore nossa coleção de ${selectedSubcategory}`
               : selectedCategory
@@ -53,7 +53,7 @@ const ProductGrid = () => {
         </div>
 
         {/* Search Bar */}
-        <div className="max-w-xl mx-auto mb-12">
+        <div className="max-w-xl mx-auto mb-6 md:mb-12">
           <div className="relative">
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
             <input
@@ -61,21 +61,31 @@ const ProductGrid = () => {
               placeholder="Buscar produtos..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full h-14 pl-12 pr-4 rounded-full bg-secondary border border-border focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all text-foreground placeholder:text-muted-foreground"
+              className="w-full h-12 md:h-14 pl-12 pr-4 rounded-full bg-secondary border border-border focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all text-foreground placeholder:text-muted-foreground"
             />
           </div>
         </div>
 
-        <div className="flex flex-row gap-4 md:gap-8">
-          <CategorySidebar 
-            selectedCategory={selectedCategory}
-            selectedSubcategory={selectedSubcategory}
-            onSelectCategory={handleSelectCategory}
-          />
+        {/* Mobile Category Filter */}
+        <MobileCategoryFilter
+          selectedCategory={selectedCategory}
+          selectedSubcategory={selectedSubcategory}
+          onSelectCategory={handleSelectCategory}
+        />
+
+        <div className="flex flex-row gap-8">
+          {/* Desktop Sidebar - Hidden on mobile */}
+          <div className="hidden md:block">
+            <CategorySidebar 
+              selectedCategory={selectedCategory}
+              selectedSubcategory={selectedSubcategory}
+              onSelectCategory={handleSelectCategory}
+            />
+          </div>
           
           <div className="flex-1">
             {filteredProducts.length > 0 ? (
-              <div className="grid grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-2 sm:gap-4 md:gap-6">
+              <div className="grid grid-cols-2 md:grid-cols-2 xl:grid-cols-3 gap-3 md:gap-6">
                 {filteredProducts.map((product) => (
                   <ProductCard key={product.id} product={product} />
                 ))}
