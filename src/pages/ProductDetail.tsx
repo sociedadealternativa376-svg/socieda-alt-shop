@@ -7,11 +7,9 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { useState } from 'react';
 
-// Gallery shows the same product image (simulating different angles)
-// In production, each product would have its own set of photos
+// Get product gallery images - each product has its own set of related images
 const getProductGalleryImages = (product: typeof products[0]) => {
-  // Using the same image 4 times to represent different angles of the same product
-  return [product.image, product.image, product.image, product.image];
+  return product.gallery || [product.image];
 };
 
 const ProductDetailContent = () => {
