@@ -1,0 +1,51 @@
+import { Product } from '@/types/product';
+import { useCart } from '@/context/CartContext';
+import { ShoppingBag } from 'lucide-react';
+
+interface ProductCardProps {
+  product: Product;
+}
+
+const ProductCard = ({ product }: ProductCardProps) => {
+  const { addToCart } = useCart();
+
+  return (
+    <div className="group relative bg-card rounded-lg overflow-hidden hover-glow gradient-border">
+      <div className="aspect-square overflow-hidden">
+        <img 
+          src={product.image} 
+          alt={product.name}
+          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+      </div>
+      
+      <div className="p-4">
+        <span className="text-xs text-primary font-medium uppercase tracking-wider">
+          {product.category}
+        </span>
+        <h3 className="font-display text-lg text-foreground mt-1 mb-2 line-clamp-1">
+          {product.name}
+        </h3>
+        <p className="text-sm text-muted-foreground line-clamp-2 mb-3">
+          {product.description}
+        </p>
+        
+        <div className="flex items-center justify-between">
+          <span className="text-xl font-bold gradient-text">
+            R$ {product.price.toFixed(2)}
+          </span>
+          <button 
+            onClick={() => addToCart(product)}
+            className="flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-warm-yellow via-warm-orange to-warm-red text-primary-foreground font-medium text-sm transition-all hover:opacity-90 hover:scale-105"
+          >
+            <ShoppingBag className="h-4 w-4" />
+            Comprar
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default ProductCard;
