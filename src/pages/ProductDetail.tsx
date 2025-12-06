@@ -7,9 +7,10 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { useState } from 'react';
 
-// Get product gallery images - each product has its own set of related images
+// Uses the same product image for all gallery positions
+// When real photos are available, replace with actual product angles
 const getProductGalleryImages = (product: typeof products[0]) => {
-  return product.gallery || [product.image];
+  return [product.image, product.image, product.image, product.image];
 };
 
 const ProductDetailContent = () => {
