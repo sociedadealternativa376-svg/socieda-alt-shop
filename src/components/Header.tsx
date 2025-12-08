@@ -5,6 +5,7 @@ import { useCart } from '@/context/CartContext';
 import logo from '@/assets/logo.png';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import Cart from './Cart';
+import ThemeToggle from './ThemeToggle';
 
 const Header = () => {
   const { itemCount } = useCart();
@@ -66,8 +67,10 @@ const Header = () => {
             </a>
           </nav>
 
-          {/* Cart & Mobile Menu */}
-          <div className="flex items-center gap-2 md:gap-4">
+          {/* Theme Toggle, Cart & Mobile Menu */}
+          <div className="flex items-center gap-2 md:gap-3">
+            <ThemeToggle />
+            
             <Sheet>
               <SheetTrigger asChild>
                 <button className="relative p-2 rounded-full bg-secondary hover:bg-secondary/80 transition-colors hover-glow">
