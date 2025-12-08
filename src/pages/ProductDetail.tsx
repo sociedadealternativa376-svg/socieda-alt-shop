@@ -5,7 +5,7 @@ import { useCart } from '@/context/CartContext';
 import { CartProvider } from '@/context/CartContext';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 const getProductGalleryImages = (product: typeof products[0]) => {
   return [product.image, product.image, product.image, product.image];
@@ -17,6 +17,10 @@ const ProductDetailContent = () => {
   const { addToCart } = useCart();
   const [selectedImage, setSelectedImage] = useState(0);
   const [quantity, setQuantity] = useState(1);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [id]);
 
   const product = products.find(p => p.id === id);
 
