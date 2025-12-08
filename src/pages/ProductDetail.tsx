@@ -1,10 +1,11 @@
 import { useParams, useNavigate } from 'react-router-dom';
-import { ArrowLeft, ShoppingBag, Shield, Truck, RotateCcw } from 'lucide-react';
+import { ShoppingBag, Shield, Truck, RotateCcw } from 'lucide-react';
 import { products } from '@/data/products';
 import { useCart } from '@/context/CartContext';
 import { CartProvider } from '@/context/CartContext';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import Breadcrumbs from '@/components/Breadcrumbs';
 import { useState, useEffect } from 'react';
 
 const getProductGalleryImages = (product: typeof products[0]) => {
@@ -54,19 +55,19 @@ const ProductDetailContent = () => {
     .filter(p => p.category === product.category && p.id !== product.id)
     .slice(0, 4);
 
+  const breadcrumbItems = [
+    { label: 'Produtos', href: '/#produtos' },
+    { label: product.category.charAt(0).toUpperCase() + product.category.slice(1) },
+    { label: product.name }
+  ];
+
   return (
     <div className="min-h-screen bg-background">
       <Header />
-      <main className="pt-24 pb-16 animate-fade-in">
+      <main className="pt-20 md:pt-24 pb-16 animate-fade-in">
         <div className="container mx-auto px-4">
-          {/* Back Button */}
-          <button 
-            onClick={() => navigate(-1)}
-            className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors mb-8"
-          >
-            <ArrowLeft className="h-4 w-4" />
-            Voltar
-          </button>
+          {/* Breadcrumbs */}
+          <Breadcrumbs items={breadcrumbItems} />
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
             {/* Image Gallery */}
