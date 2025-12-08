@@ -13,10 +13,6 @@ const ProductGrid = () => {
   const handleSelectCategory = (category: string | null, subcategory: string | null) => {
     setSelectedCategory(category);
     setSelectedSubcategory(subcategory);
-    const productsSection = document.getElementById('produtos');
-    if (productsSection) {
-      productsSection.scrollIntoView({ behavior: 'smooth' });
-    }
   };
 
   const filteredProducts = useMemo(() => {
