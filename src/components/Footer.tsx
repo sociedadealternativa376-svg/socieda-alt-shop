@@ -29,13 +29,13 @@ const Footer = () => {
               </li>
               <li className="flex items-center gap-3 text-muted-foreground">
                 <a 
-                  href="https://wa.me/5511947791396?text=Olá! Vim pelo site e gostaria de mais informações."
+                  href="https://wa.me/5511952222008?text=Olá! Vim pelo site e gostaria de mais informações."
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center gap-3 hover:text-primary transition-colors"
                 >
                   <Phone className="h-5 w-5 text-primary" />
-                  <span>(11) 94779-1396</span>
+                  <span>(11) 95222-2008</span>
                 </a>
               </li>
             </ul>
