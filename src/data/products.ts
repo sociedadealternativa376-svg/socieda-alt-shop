@@ -51,6 +51,7 @@ import nariz03013 from '@/assets/products/nariz/na-03013.png';
 import nariz03013_2 from '@/assets/products/nariz/na-03013-2.png';
 import nariz02010 from '@/assets/products/nariz/na-02010.png';
 import nariz02010_2 from '@/assets/products/nariz/na-02010-2.png';
+import nariz01010 from '@/assets/products/nariz/na-01010.png';
 
 export interface ProductWithGallery extends Product {
   gallery: string[];
@@ -485,6 +486,17 @@ export const products: ProductWithGallery[] = [
     category: 'joia',
     subcategory: 'nariz',
     description: 'Piercing nostril bolinha com cristal 1,6mm em aço cirúrgico',
+    inStock: true,
+  },
+  {
+    id: 'nariz-01010',
+    name: 'Piercing Nariz Bolinha Mini 1,2mm',
+    price: 15.90,
+    image: nariz01010,
+    gallery: [nariz01010],
+    category: 'joia',
+    subcategory: 'nariz',
+    description: 'Piercing nostril bolinha mini 1,2mm em aço cirúrgico',
     inStock: true,
   },
 ];
