@@ -31,6 +31,16 @@ import nariz18010 from '@/assets/products/nariz/na-18010.png';
 import nariz17010 from '@/assets/products/nariz/na-17010.png';
 import nariz16010 from '@/assets/products/nariz/na-16010.png';
 import nariz15010 from '@/assets/products/nariz/na-15010.png';
+import nariz14010 from '@/assets/products/nariz/na-14010.png';
+import nariz13010 from '@/assets/products/nariz/na-13010.png';
+import nariz12010 from '@/assets/products/nariz/na-12010.png';
+import nariz11010 from '@/assets/products/nariz/na-11010.png';
+import nariz10010 from '@/assets/products/nariz/na-10010.png';
+import nariz09010 from '@/assets/products/nariz/na-09010.png';
+import nariz08016 from '@/assets/products/nariz/na-08016.png';
+import nariz08010 from '@/assets/products/nariz/na-08010.png';
+import nariz07016 from '@/assets/products/nariz/na-07016.png';
+import nariz07016_2 from '@/assets/products/nariz/na-07016-2.png';
 
 export interface ProductWithGallery extends Product {
   gallery: string[];
@@ -311,6 +321,105 @@ export const products: ProductWithGallery[] = [
     category: 'joia',
     subcategory: 'nariz',
     description: 'Piercing nostril bolinha mini discreta em aço cirúrgico',
+    inStock: true,
+  },
+  {
+    id: 'nariz-14010',
+    name: 'Piercing Nariz Cristal Lilás 1,6mm',
+    price: 19.90,
+    image: nariz14010,
+    gallery: [nariz14010],
+    category: 'joia',
+    subcategory: 'nariz',
+    description: 'Piercing nostril cristal lilás 1,6mm em aço cirúrgico',
+    inStock: true,
+  },
+  {
+    id: 'nariz-13010',
+    name: 'Piercing Nariz Cristal Rosa Claro 1,2mm',
+    price: 19.90,
+    image: nariz13010,
+    gallery: [nariz13010],
+    category: 'joia',
+    subcategory: 'nariz',
+    description: 'Piercing nostril cristal rosa claro 1,2mm em aço cirúrgico',
+    inStock: true,
+  },
+  {
+    id: 'nariz-12010',
+    name: 'Piercing Nariz Cristal Aurora 1,6mm',
+    price: 19.90,
+    image: nariz12010,
+    gallery: [nariz12010],
+    category: 'joia',
+    subcategory: 'nariz',
+    description: 'Piercing nostril cristal aurora boreal 1,6mm em aço cirúrgico',
+    inStock: true,
+  },
+  {
+    id: 'nariz-11010',
+    name: 'Piercing Nariz Cristal Transparente 1,2mm',
+    price: 17.90,
+    image: nariz11010,
+    gallery: [nariz11010],
+    category: 'joia',
+    subcategory: 'nariz',
+    description: 'Piercing nostril cristal transparente 1,2mm em aço cirúrgico',
+    inStock: true,
+  },
+  {
+    id: 'nariz-10010',
+    name: 'Piercing Nariz Cristal Azul 1,6mm',
+    price: 19.90,
+    image: nariz10010,
+    gallery: [nariz10010],
+    category: 'joia',
+    subcategory: 'nariz',
+    description: 'Piercing nostril cristal azul 1,6mm em aço cirúrgico',
+    inStock: true,
+  },
+  {
+    id: 'nariz-09010',
+    name: 'Piercing Nariz Cristal Azul Claro 1,2mm',
+    price: 17.90,
+    image: nariz09010,
+    gallery: [nariz09010],
+    category: 'joia',
+    subcategory: 'nariz',
+    description: 'Piercing nostril cristal azul claro 1,2mm em aço cirúrgico',
+    inStock: true,
+  },
+  {
+    id: 'nariz-08016',
+    name: 'Piercing Nariz Flor Cristal',
+    price: 29.90,
+    image: nariz08016,
+    gallery: [nariz08016],
+    category: 'joia',
+    subcategory: 'nariz',
+    description: 'Piercing nostril flor de cristal delicada em aço cirúrgico',
+    inStock: true,
+  },
+  {
+    id: 'nariz-08010',
+    name: 'Piercing Nariz Cristal Acqua',
+    price: 17.90,
+    image: nariz08010,
+    gallery: [nariz08010],
+    category: 'joia',
+    subcategory: 'nariz',
+    description: 'Piercing nostril cristal acqua em aço cirúrgico',
+    inStock: true,
+  },
+  {
+    id: 'nariz-07016',
+    name: 'Piercing Nariz Flor Cristal Grande',
+    price: 32.90,
+    image: nariz07016,
+    gallery: [nariz07016, nariz07016_2],
+    category: 'joia',
+    subcategory: 'nariz',
+    description: 'Piercing nostril flor de cristal grande em aço cirúrgico',
     inStock: true,
   },
 ];
