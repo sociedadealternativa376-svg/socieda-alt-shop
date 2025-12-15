@@ -97,6 +97,16 @@ import rt27019 from '@/assets/products/tragus/rt-27019.png';
 import rt27019_2 from '@/assets/products/tragus/rt-27019-2.png';
 import rt28015 from '@/assets/products/tragus/rt-28015.png';
 import rt28015_2 from '@/assets/products/tragus/rt-28015-2.png';
+import rt29016 from '@/assets/products/tragus/rt-29016.png';
+import rt30016 from '@/assets/products/tragus/rt-30016.png';
+import rt31016 from '@/assets/products/tragus/rt-31016.png';
+import rt32016 from '@/assets/products/tragus/rt-32016.png';
+import rt33016 from '@/assets/products/tragus/rt-33016.png';
+import rt34016 from '@/assets/products/tragus/rt-34016.png';
+import rt35016 from '@/assets/products/tragus/rt-35016.png';
+import rt36016 from '@/assets/products/tragus/rt-36016.png';
+import rt37016 from '@/assets/products/tragus/rt-37016.png';
+import rt38016 from '@/assets/products/tragus/rt-38016.png';
 
 export interface ProductWithGallery extends Product {
   gallery: string[];
@@ -790,6 +800,116 @@ export const products: ProductWithGallery[] = [
     category: 'joia',
     subcategory: 'tragus',
     description: 'Piercing tragus três flores com cristais em dourado em aço cirúrgico',
+    inStock: true,
+  },
+  {
+    id: 'rt-29016',
+    name: 'Piercing Tragus Olho Grego',
+    price: 70.00,
+    image: rt29016,
+    gallery: [rt29016],
+    category: 'joia',
+    subcategory: 'tragus',
+    description: 'Piercing tragus olho grego com cristal em aço cirúrgico',
+    inStock: true,
+  },
+  {
+    id: 'rt-30016',
+    name: 'Piercing Tragus Coração',
+    price: 70.00,
+    image: rt30016,
+    gallery: [rt30016],
+    category: 'joia',
+    subcategory: 'tragus',
+    description: 'Piercing tragus coração com cristal em aço cirúrgico',
+    inStock: true,
+  },
+  {
+    id: 'rt-31016',
+    name: 'Piercing Tragus Lua',
+    price: 70.00,
+    image: rt31016,
+    gallery: [rt31016],
+    category: 'joia',
+    subcategory: 'tragus',
+    description: 'Piercing tragus lua com cristais em aço cirúrgico',
+    inStock: true,
+  },
+  {
+    id: 'rt-32016',
+    name: 'Piercing Tragus Estrela',
+    price: 70.00,
+    image: rt32016,
+    gallery: [rt32016],
+    category: 'joia',
+    subcategory: 'tragus',
+    description: 'Piercing tragus estrela com cristais em aço cirúrgico',
+    inStock: true,
+  },
+  {
+    id: 'rt-33016',
+    name: 'Piercing Tragus Borboleta',
+    price: 70.00,
+    image: rt33016,
+    gallery: [rt33016],
+    category: 'joia',
+    subcategory: 'tragus',
+    description: 'Piercing tragus borboleta com cristais em aço cirúrgico',
+    inStock: true,
+  },
+  {
+    id: 'rt-34016',
+    name: 'Piercing Tragus Cruz',
+    price: 70.00,
+    image: rt34016,
+    gallery: [rt34016],
+    category: 'joia',
+    subcategory: 'tragus',
+    description: 'Piercing tragus cruz com cristais em aço cirúrgico',
+    inStock: true,
+  },
+  {
+    id: 'rt-35016',
+    name: 'Piercing Tragus Flor Grande',
+    price: 70.00,
+    image: rt35016,
+    gallery: [rt35016],
+    category: 'joia',
+    subcategory: 'tragus',
+    description: 'Piercing tragus flor grande com cristais em aço cirúrgico',
+    inStock: true,
+  },
+  {
+    id: 'rt-36016',
+    name: 'Piercing Tragus Cristal Redondo',
+    price: 70.00,
+    image: rt36016,
+    gallery: [rt36016],
+    category: 'joia',
+    subcategory: 'tragus',
+    description: 'Piercing tragus cristal redondo em aço cirúrgico',
+    inStock: true,
+  },
+  {
+    id: 'rt-37016',
+    name: 'Piercing Tragus Flor Pérola',
+    price: 70.00,
+    image: rt37016,
+    gallery: [rt37016],
+    category: 'joia',
+    subcategory: 'tragus',
+    description: 'Piercing tragus flor com pérola central em aço cirúrgico',
+    inStock: true,
+  },
+  {
+    id: 'rt-38016',
+    name: 'Piercing Tragus Mini Cristal',
+    price: 70.00,
+    image: rt38016,
+    gallery: [rt38016],
+    category: 'joia',
+    subcategory: 'tragus',
+    description: 'Piercing tragus mini cristal em aço cirúrgico',
     inStock: true,
   },
 ];
