@@ -1,6 +1,7 @@
 import { CartProvider } from '@/context/CartContext';
 import Header from '@/components/Header';
 import Hero from '@/components/Hero';
+import PromoBanner from '@/components/PromoBanner';
 import ProductGrid from '@/components/ProductGrid';
 import About from '@/components/About';
 import Footer from '@/components/Footer';
@@ -13,6 +14,7 @@ const Index = () => {
         <Header />
         <main>
           <Hero />
+          <PromoBanner />
           <ProductGrid />
           <About />
         </main>
