@@ -65,7 +65,13 @@ import argola13015 from '@/assets/products/argola/ar-13015.png';
 import argola14015 from '@/assets/products/argola/ar-14015.png';
 
 // Novas argolas de nariz
+import narg01010 from '@/assets/products/nariz/narg-01010.png';
+import narg01010_2 from '@/assets/products/nariz/narg-01010-2.png';
+import narg01010_3 from '@/assets/products/nariz/narg-01010-3.png';
 import narg02010 from '@/assets/products/nariz/narg-02010.png';
+import narg02010_2 from '@/assets/products/nariz/narg-02010-2.png';
+import narg02010_3 from '@/assets/products/nariz/narg-02010-3.png';
+import narg02010_4 from '@/assets/products/nariz/narg-02010-4.png';
 import narg03010 from '@/assets/products/nariz/narg-03010.png';
 import narg03010_2 from '@/assets/products/nariz/narg-03010-2.png';
 import narg03010_3 from '@/assets/products/nariz/narg-03010-3.png';
@@ -75,6 +81,12 @@ import narg06012 from '@/assets/products/nariz/narg-06012.png';
 import narg07019 from '@/assets/products/nariz/narg-07019.png';
 import narg08015 from '@/assets/products/nariz/narg-08015.png';
 import narg08015_2 from '@/assets/products/nariz/narg-08015-2.png';
+
+// Tragus/Orelha
+import rt27019 from '@/assets/products/tragus/rt-27019.png';
+import rt27019_2 from '@/assets/products/tragus/rt-27019-2.png';
+import rt28015 from '@/assets/products/tragus/rt-28015.png';
+import rt28015_2 from '@/assets/products/tragus/rt-28015-2.png';
 
 export interface ProductWithGallery extends Product {
   gallery: string[];
@@ -604,14 +616,25 @@ export const products: ProductWithGallery[] = [
   
   // Novas Argolas de Nariz - Ordenadas do menor para o maior número
   {
+    id: 'narg-01010',
+    name: 'Argola Nariz Lisa Fina',
+    price: 60.00,
+    image: narg01010,
+    gallery: [narg01010, narg01010_2, narg01010_3],
+    category: 'joia',
+    subcategory: 'argola',
+    description: 'Argola nariz lisa fina disponível em preto, prata e prata polida em aço cirúrgico',
+    inStock: true,
+  },
+  {
     id: 'narg-02010',
     name: 'Argola Nariz Lisa Simples',
     price: 60.00,
     image: narg02010,
-    gallery: [narg02010],
+    gallery: [narg02010, narg02010_2, narg02010_3, narg02010_4],
     category: 'joia',
     subcategory: 'argola',
-    description: 'Argola nariz lisa simples em aço cirúrgico',
+    description: 'Argola nariz lisa simples disponível em prata, dourado e preto em aço cirúrgico',
     inStock: true,
   },
   {
@@ -680,12 +703,36 @@ export const products: ProductWithGallery[] = [
     description: 'Argola nariz trançada com bolinha disponível em dourado e prata em aço cirúrgico',
     inStock: true,
   },
+  
+  // Tragus/Orelha
+  {
+    id: 'rt-27019',
+    name: 'Piercing Tragus Borboleta Cristais',
+    price: 70.00,
+    image: rt27019,
+    gallery: [rt27019, rt27019_2],
+    category: 'joia',
+    subcategory: 'tragus',
+    description: 'Piercing tragus borboleta com cristais disponível em dourado e prata em aço cirúrgico',
+    inStock: true,
+  },
+  {
+    id: 'rt-28015',
+    name: 'Piercing Tragus Bruxinha',
+    price: 70.00,
+    image: rt28015,
+    gallery: [rt28015, rt28015_2],
+    category: 'joia',
+    subcategory: 'tragus',
+    description: 'Piercing tragus bruxinha voando na vassoura disponível em dourado e prata em aço cirúrgico',
+    inStock: true,
+  },
 ];
 
 export const categories = [
   {
     id: 'joia',
     name: 'Joias',
-    subcategories: ['nariz', 'argola'],
+    subcategories: ['nariz', 'argola', 'tragus'],
   },
 ];

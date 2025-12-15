@@ -24,13 +24,38 @@ const ProductGrid = () => {
   };
 
   const filteredProducts = useMemo(() => {
-    return products.filter((product) => {
+    let filtered = products.filter((product) => {
       const matchesCategory = selectedCategory ? product.category === selectedCategory : true;
       const matchesSubcategory = selectedSubcategory ? product.subcategory === selectedSubcategory : true;
       const matchesSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
                            product.description.toLowerCase().includes(searchTerm.toLowerCase());
       return matchesCategory && matchesSubcategory && matchesSearch;
     });
+
+    // When showing all products (no category/subcategory filter), interleave products from different subcategories
+    if (!selectedCategory && !selectedSubcategory && !searchTerm) {
+      const subcategoryGroups: { [key: string]: typeof products } = {};
+      filtered.forEach(product => {
+        const key = product.subcategory || 'other';
+        if (!subcategoryGroups[key]) subcategoryGroups[key] = [];
+        subcategoryGroups[key].push(product);
+      });
+
+      const subcategories = Object.keys(subcategoryGroups);
+      const interleaved: typeof products = [];
+      let maxLength = Math.max(...subcategories.map(s => subcategoryGroups[s].length));
+      
+      for (let i = 0; i < maxLength; i++) {
+        for (const sub of subcategories) {
+          if (subcategoryGroups[sub][i]) {
+            interleaved.push(subcategoryGroups[sub][i]);
+          }
+        }
+      }
+      return interleaved;
+    }
+
+    return filtered;
   }, [selectedCategory, selectedSubcategory, searchTerm]);
 
   const getCategoryTitle = () => {
