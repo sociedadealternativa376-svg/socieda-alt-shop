@@ -83,6 +83,16 @@ import narg08015 from '@/assets/products/nariz/narg-08015.png';
 import narg08015_2 from '@/assets/products/nariz/narg-08015-2.png';
 
 // Tragus/Orelha
+import rt22018 from '@/assets/products/tragus/rt-22018.png';
+import rt23016 from '@/assets/products/tragus/rt-23016.png';
+import rt23016_2 from '@/assets/products/tragus/rt-23016-2.png';
+import rt24018 from '@/assets/products/tragus/rt-24018.png';
+import rt24018_2 from '@/assets/products/tragus/rt-24018-2.png';
+import rt24018_3 from '@/assets/products/tragus/rt-24018-3.png';
+import rt25018 from '@/assets/products/tragus/rt-25018.png';
+import rt25018_2 from '@/assets/products/tragus/rt-25018-2.png';
+import rt26016 from '@/assets/products/tragus/rt-26016.png';
+import rt26016_2 from '@/assets/products/tragus/rt-26016-2.png';
 import rt27019 from '@/assets/products/tragus/rt-27019.png';
 import rt27019_2 from '@/assets/products/tragus/rt-27019-2.png';
 import rt28015 from '@/assets/products/tragus/rt-28015.png';
@@ -725,6 +735,61 @@ export const products: ProductWithGallery[] = [
     category: 'joia',
     subcategory: 'tragus',
     description: 'Piercing tragus bruxinha voando na vassoura disponível em dourado e prata em aço cirúrgico',
+    inStock: true,
+  },
+  {
+    id: 'rt-26016',
+    name: 'Piercing Tragus Coruja',
+    price: 70.00,
+    image: rt26016,
+    gallery: [rt26016, rt26016_2],
+    category: 'joia',
+    subcategory: 'tragus',
+    description: 'Piercing tragus coruja com cristais disponível em prata e dourado em aço cirúrgico',
+    inStock: true,
+  },
+  {
+    id: 'rt-25018',
+    name: 'Piercing Tragus Flores Duplas Grandes',
+    price: 70.00,
+    image: rt25018,
+    gallery: [rt25018, rt25018_2],
+    category: 'joia',
+    subcategory: 'tragus',
+    description: 'Piercing tragus flores duplas grandes com cristais disponível em prata e dourado em aço cirúrgico',
+    inStock: true,
+  },
+  {
+    id: 'rt-24018',
+    name: 'Piercing Tragus Flores Duplas',
+    price: 70.00,
+    image: rt24018,
+    gallery: [rt24018, rt24018_2, rt24018_3],
+    category: 'joia',
+    subcategory: 'tragus',
+    description: 'Piercing tragus flores duplas com cristais disponível em dourado e prata em aço cirúrgico',
+    inStock: true,
+  },
+  {
+    id: 'rt-23016',
+    name: 'Piercing Tragus Mão de Fátima',
+    price: 70.00,
+    image: rt23016,
+    gallery: [rt23016, rt23016_2],
+    category: 'joia',
+    subcategory: 'tragus',
+    description: 'Piercing tragus mão de fátima (hamsa) com cristal disponível em dourado e prata em aço cirúrgico',
+    inStock: true,
+  },
+  {
+    id: 'rt-22018',
+    name: 'Piercing Tragus Três Flores',
+    price: 70.00,
+    image: rt22018,
+    gallery: [rt22018],
+    category: 'joia',
+    subcategory: 'tragus',
+    description: 'Piercing tragus três flores com cristais em dourado em aço cirúrgico',
     inStock: true,
   },
 ];
