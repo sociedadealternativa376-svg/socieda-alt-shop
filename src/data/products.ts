@@ -53,6 +53,17 @@ import nariz02010 from '@/assets/products/nariz/na-02010.png';
 import nariz02010_2 from '@/assets/products/nariz/na-02010-2.png';
 import nariz01010 from '@/assets/products/nariz/na-01010.png';
 
+// Imagens das argolas
+import argola08015 from '@/assets/products/argola/ar-08015.png';
+import argola09015 from '@/assets/products/argola/ar-09015.png';
+import argola10021 from '@/assets/products/argola/ar-10021.png';
+import argola10021_2 from '@/assets/products/argola/ar-10021-2.png';
+import argola10021_3 from '@/assets/products/argola/ar-10021-3.png';
+import argola11021 from '@/assets/products/argola/ar-11021.png';
+import argola12021 from '@/assets/products/argola/ar-12021.png';
+import argola13015 from '@/assets/products/argola/ar-13015.png';
+import argola14015 from '@/assets/products/argola/ar-14015.png';
+
 export interface ProductWithGallery extends Product {
   gallery: string[];
 }
@@ -499,12 +510,91 @@ export const products: ProductWithGallery[] = [
     description: 'Piercing nostril em formato de coelhinho fofo em aço cirúrgico',
     inStock: true,
   },
+  
+  // Argolas - Ordenadas do menor para o maior número
+  {
+    id: 'argola-08015',
+    name: 'Argola Trançada Dourada com Bolinha',
+    price: 24.90,
+    image: argola08015,
+    gallery: [argola08015],
+    category: 'joia',
+    subcategory: 'argola',
+    description: 'Argola trançada dourada com bolinha em aço cirúrgico banhado a ouro',
+    inStock: true,
+  },
+  {
+    id: 'argola-09015',
+    name: 'Argola Trançada Prata com Bolinha',
+    price: 22.90,
+    image: argola09015,
+    gallery: [argola09015],
+    category: 'joia',
+    subcategory: 'argola',
+    description: 'Argola trançada prata com bolinha em aço cirúrgico',
+    inStock: true,
+  },
+  {
+    id: 'argola-10021',
+    name: 'Argola Clicker Articulada',
+    price: 29.90,
+    image: argola10021,
+    gallery: [argola10021, argola10021_2, argola10021_3],
+    category: 'joia',
+    subcategory: 'argola',
+    description: 'Argola clicker articulada disponível em prata e dourado em aço cirúrgico',
+    inStock: true,
+  },
+  {
+    id: 'argola-11021',
+    name: 'Argola Clicker Articulada Média',
+    price: 32.90,
+    image: argola11021,
+    gallery: [argola11021],
+    category: 'joia',
+    subcategory: 'argola',
+    description: 'Argola clicker articulada média em aço cirúrgico prata e dourado',
+    inStock: true,
+  },
+  {
+    id: 'argola-12021',
+    name: 'Argola Lisa Clássica Prata',
+    price: 27.90,
+    image: argola12021,
+    gallery: [argola12021],
+    category: 'joia',
+    subcategory: 'argola',
+    description: 'Argola lisa clássica em aço cirúrgico',
+    inStock: true,
+  },
+  {
+    id: 'argola-13015',
+    name: 'Argola Ferradura com Bolinhas',
+    price: 19.90,
+    image: argola13015,
+    gallery: [argola13015],
+    category: 'joia',
+    subcategory: 'argola',
+    description: 'Argola ferradura com bolinhas em aço cirúrgico prata e dourado',
+    inStock: true,
+  },
+  {
+    id: 'argola-14015',
+    name: 'Argola Ferradura Média com Bolinhas',
+    price: 22.90,
+    image: argola14015,
+    gallery: [argola14015],
+    category: 'joia',
+    subcategory: 'argola',
+    description: 'Argola ferradura média com bolinhas em aço cirúrgico prata e dourado',
+    inStock: true,
+  },
 ];
 
 export const categories = [
   {
     id: 'joia',
     name: 'Joias',
-    subcategories: ['nariz'],
+    subcategories: ['nariz', 'argola'],
   },
 ];
