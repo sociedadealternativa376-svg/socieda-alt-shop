@@ -8,8 +8,10 @@ import Footer from '@/components/Footer';
 import Breadcrumbs from '@/components/Breadcrumbs';
 import { useState, useEffect } from 'react';
 
-const getProductGalleryImages = (product: typeof products[0]) => {
-  return [product.image, product.image, product.image, product.image];
+const getProductGalleryImages = (product: (typeof products)[number]) => {
+  // Use real gallery when available (multiple angles/variations of the same item)
+  const gallery = (product as any).gallery as string[] | undefined;
+  return gallery && gallery.length > 0 ? gallery : [product.image];
 };
 
 const ProductDetailContent = () => {
@@ -21,6 +23,7 @@ const ProductDetailContent = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
+    setSelectedImage(0);
   }, [id]);
 
   const product = products.find(p => p.id === id);
