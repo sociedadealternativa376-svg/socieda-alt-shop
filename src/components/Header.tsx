@@ -1,19 +1,37 @@
-import { ShoppingCart, Menu, X } from 'lucide-react';
+import { ShoppingCart, Menu, X, User, LogOut, Loader2 } from 'lucide-react';
 import { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useCart } from '@/context/CartContext';
+import { useAuth } from '@/context/AuthContext';
 import logo from '@/assets/logo.png';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import { Button } from '@/components/ui/button';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 import Cart from './Cart';
 import ThemeToggle from './ThemeToggle';
+import { toast } from 'sonner';
 
 const Header = () => {
   const { itemCount } = useCart();
+  const { user, loading, signOut } = useAuth();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
 
   const handleNavClick = () => {
     setMobileMenuOpen(false);
+  };
+
+  const handleSignOut = async () => {
+    await signOut();
+    toast.success('Você saiu da sua conta');
+    navigate('/');
   };
 
   const isActive = (path: string) => {
@@ -67,9 +85,43 @@ const Header = () => {
             </a>
           </nav>
 
-          {/* Theme Toggle, Cart & Mobile Menu */}
+          {/* Theme Toggle, User Menu, Cart & Mobile Menu */}
           <div className="flex items-center gap-2 md:gap-3">
             <ThemeToggle />
+
+            {/* User Menu */}
+            {loading ? (
+              <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />
+            ) : user ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <button className="p-2 rounded-full bg-primary/20 hover:bg-primary/30 transition-colors">
+                    <User className="h-5 w-5 text-primary" />
+                  </button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-56">
+                  <div className="px-3 py-2">
+                    <p className="text-sm font-medium truncate">{user.email}</p>
+                    <p className="text-xs text-muted-foreground">Conectado</p>
+                  </div>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={handleSignOut} className="text-destructive cursor-pointer">
+                    <LogOut className="h-4 w-4 mr-2" />
+                    Sair
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
+              <Link to="/auth">
+                <Button variant="outline" size="sm" className="hidden sm:flex">
+                  <User className="h-4 w-4 mr-2" />
+                  Entrar
+                </Button>
+                <button className="sm:hidden p-2 rounded-full bg-secondary hover:bg-secondary/80 transition-colors">
+                  <User className="h-5 w-5" />
+                </button>
+              </Link>
+            )}
             
             <Sheet>
               <SheetTrigger asChild>
@@ -136,6 +188,28 @@ const Header = () => {
               >
                 Contato
               </a>
+              
+              {/* Mobile auth link */}
+              {!user && (
+                <Link 
+                  to="/auth" 
+                  onClick={handleNavClick}
+                  className="py-3 px-4 rounded-lg text-primary hover:bg-primary/10 transition-colors font-medium flex items-center gap-2"
+                >
+                  <User className="h-4 w-4" />
+                  Entrar / Criar conta
+                </Link>
+              )}
+              
+              {user && (
+                <button 
+                  onClick={() => { handleSignOut(); handleNavClick(); }}
+                  className="py-3 px-4 rounded-lg text-destructive hover:bg-destructive/10 transition-colors font-medium flex items-center gap-2 text-left"
+                >
+                  <LogOut className="h-4 w-4" />
+                  Sair da conta
+                </button>
+              )}
             </div>
           </nav>
         )}
