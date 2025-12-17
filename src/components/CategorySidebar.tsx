@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { ChevronDown, Sparkles, Zap, Gem } from 'lucide-react';
-import { categories } from '@/data/products';
+import { categories, subcategoryLabels } from '@/data/products';
 
 interface CategorySidebarProps {
   selectedCategory: string | null;
@@ -23,6 +23,10 @@ const CategorySidebar = ({ selectedCategory, selectedSubcategory, onSelectCatego
         ? prev.filter(id => id !== categoryId)
         : [...prev, categoryId]
     );
+  };
+
+  const getSubcategoryLabel = (sub: string) => {
+    return subcategoryLabels[sub] || sub.charAt(0).toUpperCase() + sub.slice(1);
   };
 
   return (
@@ -80,13 +84,13 @@ const CategorySidebar = ({ selectedCategory, selectedSubcategory, onSelectCatego
                     <button
                       key={sub}
                       onClick={() => onSelectCategory(category.id, sub)}
-                      className={`w-full text-left py-1 sm:py-2 px-2 sm:px-4 text-xs sm:text-sm rounded-md transition-colors capitalize ${
+                      className={`w-full text-left py-1 sm:py-2 px-2 sm:px-4 text-xs sm:text-sm rounded-md transition-colors ${
                         selectedCategory === category.id && selectedSubcategory === sub
                           ? 'bg-primary/20 text-primary font-medium'
                           : 'text-muted-foreground hover:text-primary hover:bg-secondary/50'
                       }`}
                     >
-                      {sub}
+                      {getSubcategoryLabel(sub)}
                     </button>
                   ))}
                 </div>

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { ChevronDown, Filter, X } from 'lucide-react';
-import { categories } from '@/data/products';
+import { categories, subcategoryLabels } from '@/data/products';
 
 interface MobileCategoryFilterProps {
   selectedCategory: string | null;
@@ -11,8 +11,12 @@ interface MobileCategoryFilterProps {
 const MobileCategoryFilter = ({ selectedCategory, selectedSubcategory, onSelectCategory }: MobileCategoryFilterProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
+  const getSubcategoryLabel = (sub: string) => {
+    return subcategoryLabels[sub] || sub.charAt(0).toUpperCase() + sub.slice(1);
+  };
+
   const getCurrentLabel = () => {
-    if (selectedSubcategory) return selectedSubcategory;
+    if (selectedSubcategory) return getSubcategoryLabel(selectedSubcategory);
     if (selectedCategory) {
       const cat = categories.find(c => c.id === selectedCategory);
       return cat?.name || 'Todos';
@@ -34,7 +38,7 @@ const MobileCategoryFilter = ({ selectedCategory, selectedSubcategory, onSelectC
         <div className="flex items-center gap-2">
           <Filter className="h-4 w-4 text-primary" />
           <span className="text-foreground font-medium">Filtrar: </span>
-          <span className="text-primary capitalize">{getCurrentLabel()}</span>
+          <span className="text-primary">{getCurrentLabel()}</span>
         </div>
         <ChevronDown className={`h-4 w-4 text-muted-foreground transition-transform ${isOpen ? 'rotate-180' : ''}`} />
       </button>
@@ -79,13 +83,13 @@ const MobileCategoryFilter = ({ selectedCategory, selectedSubcategory, onSelectC
                       <button
                         key={sub}
                         onClick={() => handleSelect(category.id, sub)}
-                        className={`w-full text-left py-3 px-4 text-base rounded-md transition-colors capitalize ${
+                        className={`w-full text-left py-3 px-4 text-base rounded-md transition-colors ${
                           selectedCategory === category.id && selectedSubcategory === sub
                             ? 'bg-primary/20 text-primary font-medium'
                             : 'text-muted-foreground hover:text-primary'
                         }`}
                       >
-                        {sub}
+                        {getSubcategoryLabel(sub)}
                       </button>
                     ))}
                   </div>
