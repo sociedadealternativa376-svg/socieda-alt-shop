@@ -83,6 +83,16 @@ import narg08015 from '@/assets/products/nariz/narg-08015.png';
 import narg08015_2 from '@/assets/products/nariz/narg-08015-2.png';
 
 // Tragus/Orelha
+import rt13019 from '@/assets/products/tragus/rt-13019.png';
+import rt14018 from '@/assets/products/tragus/rt-14018.png';
+import rt14018_2 from '@/assets/products/tragus/rt-14018-2.png';
+import rt15018 from '@/assets/products/tragus/rt-15018.png';
+import rt15018_2 from '@/assets/products/tragus/rt-15018-2.png';
+import rt15018_3 from '@/assets/products/tragus/rt-15018-3.png';
+import rt16018 from '@/assets/products/tragus/rt-16018.png';
+import rt16018_2 from '@/assets/products/tragus/rt-16018-2.png';
+import rt16018_3 from '@/assets/products/tragus/rt-16018-3.png';
+import rt17018 from '@/assets/products/tragus/rt-17018.png';
 import rt22018 from '@/assets/products/tragus/rt-22018.png';
 import rt23016 from '@/assets/products/tragus/rt-23016.png';
 import rt23016_2 from '@/assets/products/tragus/rt-23016-2.png';
@@ -725,6 +735,61 @@ export const products: ProductWithGallery[] = [
   },
   
   // Tragus/Orelha
+  {
+    id: 'rt-13019',
+    name: 'Piercing Tragus Borboleta Lisa',
+    price: 70.00,
+    image: rt13019,
+    gallery: [rt13019],
+    category: 'joia',
+    subcategory: 'tragus',
+    description: 'Piercing tragus borboleta lisa com cristais em aço cirúrgico dourado',
+    inStock: true,
+  },
+  {
+    id: 'rt-14018',
+    name: 'Piercing Tragus Coração Cristais',
+    price: 70.00,
+    image: rt14018,
+    gallery: [rt14018, rt14018_2],
+    category: 'joia',
+    subcategory: 'tragus',
+    description: 'Piercing tragus coração com cristais disponível em prata e dourado em aço cirúrgico',
+    inStock: true,
+  },
+  {
+    id: 'rt-15018',
+    name: 'Piercing Tragus Flor com Folhas',
+    price: 70.00,
+    image: rt15018,
+    gallery: [rt15018, rt15018_2, rt15018_3],
+    category: 'joia',
+    subcategory: 'tragus',
+    description: 'Piercing tragus flor com folhas e cristais disponível em dourado e prata em aço cirúrgico',
+    inStock: true,
+  },
+  {
+    id: 'rt-16018',
+    name: 'Piercing Tragus Flor Delicada',
+    price: 70.00,
+    image: rt16018,
+    gallery: [rt16018, rt16018_2, rt16018_3],
+    category: 'joia',
+    subcategory: 'tragus',
+    description: 'Piercing tragus flor delicada com cristais disponível em prata e dourado em aço cirúrgico',
+    inStock: true,
+  },
+  {
+    id: 'rt-17018',
+    name: 'Piercing Tragus Cifrão',
+    price: 70.00,
+    image: rt17018,
+    gallery: [rt17018],
+    category: 'joia',
+    subcategory: 'tragus',
+    description: 'Piercing tragus cifrão com cristais em aço cirúrgico dourado',
+    inStock: true,
+  },
   {
     id: 'rt-27019',
     name: 'Piercing Tragus Borboleta Cristais',
