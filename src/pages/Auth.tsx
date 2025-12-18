@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Eye, EyeOff, Mail, Lock, User, Loader2, ArrowLeft, Sparkles } from 'lucide-react';
+import { Eye, EyeOff, Mail, Lock, User, Loader2, ArrowLeft, Sparkles, KeyRound } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useAuth } from '@/context/AuthContext';
@@ -17,16 +17,24 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { toast } from 'sonner';
 import logo from '@/assets/logo.png';
+import { z } from 'zod';
+
+const forgotPasswordSchema = z.object({
+  email: z.string().email('Email inválido'),
+});
+
+type ForgotPasswordFormData = z.infer<typeof forgotPasswordSchema>;
 
 const Auth = () => {
-  const [isLogin, setIsLogin] = useState(true);
+  const [mode, setMode] = useState<'login' | 'signup' | 'forgot'>('login');
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [passwordValue, setPasswordValue] = useState('');
+  const [emailSent, setEmailSent] = useState(false);
   
   const navigate = useNavigate();
-  const { user, signIn, signUp } = useAuth();
+  const { user, signIn, signUp, resetPassword } = useAuth();
 
   // Redirect if already logged in
   useEffect(() => {
@@ -50,6 +58,13 @@ const Auth = () => {
       email: '',
       password: '',
       confirmPassword: '',
+    },
+  });
+
+  const forgotForm = useForm<ForgotPasswordFormData>({
+    resolver: zodResolver(forgotPasswordSchema),
+    defaultValues: {
+      email: '',
     },
   });
 
@@ -97,7 +112,7 @@ const Auth = () => {
         }
       } else {
         toast.success('Cadastro realizado com sucesso! Verifique seu email para confirmar.');
-        setIsLogin(true);
+        setMode('login');
         loginForm.setValue('email', data.email);
       }
     } catch (error) {
@@ -107,11 +122,46 @@ const Auth = () => {
     }
   };
 
-  const toggleMode = () => {
-    setIsLogin(!isLogin);
+  const handleForgotPassword = async (data: ForgotPasswordFormData) => {
+    setIsLoading(true);
+    try {
+      const { error } = await resetPassword(data.email);
+      if (error) {
+        toast.error(error.message || 'Erro ao enviar email de recuperação.');
+      } else {
+        setEmailSent(true);
+        toast.success('Email de recuperação enviado!');
+      }
+    } catch (error) {
+      toast.error('Erro ao enviar email. Tente novamente.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const switchMode = (newMode: 'login' | 'signup' | 'forgot') => {
+    setMode(newMode);
     setPasswordValue('');
+    setEmailSent(false);
     loginForm.reset();
     signupForm.reset();
+    forgotForm.reset();
+  };
+
+  const getTitle = () => {
+    switch (mode) {
+      case 'login': return 'Bem-vindo de volta';
+      case 'signup': return 'Criar conta';
+      case 'forgot': return 'Recuperar senha';
+    }
+  };
+
+  const getSubtitle = () => {
+    switch (mode) {
+      case 'login': return 'Entre com suas credenciais para continuar';
+      case 'signup': return 'Preencha os dados para criar sua conta';
+      case 'forgot': return emailSent ? 'Verifique sua caixa de entrada' : 'Enviaremos um link para redefinir sua senha';
+    }
   };
 
   return (
@@ -126,11 +176,11 @@ const Auth = () => {
         {/* Back button */}
         <Button
           variant="ghost"
-          onClick={() => navigate('/')}
+          onClick={() => mode === 'forgot' ? switchMode('login') : navigate('/')}
           className="mb-6 text-muted-foreground hover:text-foreground"
         >
           <ArrowLeft className="h-4 w-4 mr-2" />
-          Voltar para a loja
+          {mode === 'forgot' ? 'Voltar para login' : 'Voltar para a loja'}
         </Button>
 
         {/* Card */}
@@ -143,17 +193,81 @@ const Auth = () => {
           {/* Title */}
           <div className="text-center mb-8">
             <h1 className="text-2xl font-display gradient-text mb-2">
-              {isLogin ? 'Bem-vindo de volta' : 'Criar conta'}
+              {getTitle()}
             </h1>
             <p className="text-muted-foreground text-sm">
-              {isLogin 
-                ? 'Entre com suas credenciais para continuar' 
-                : 'Preencha os dados para criar sua conta'}
+              {getSubtitle()}
             </p>
           </div>
 
-          {/* Login Form */}
-          {isLogin ? (
+          {/* Forgot Password Form */}
+          {mode === 'forgot' ? (
+            emailSent ? (
+              <div className="text-center space-y-4">
+                <div className="w-16 h-16 mx-auto rounded-full bg-green-500/20 flex items-center justify-center">
+                  <Mail className="h-8 w-8 text-green-500" />
+                </div>
+                <p className="text-sm text-muted-foreground">
+                  Enviamos um email para <strong>{forgotForm.getValues('email')}</strong> com instruções para redefinir sua senha.
+                </p>
+                <p className="text-xs text-muted-foreground">
+                  Não recebeu? Verifique sua pasta de spam ou
+                  <button
+                    type="button"
+                    onClick={() => setEmailSent(false)}
+                    className="ml-1 text-primary hover:underline"
+                  >
+                    tente novamente
+                  </button>
+                </p>
+                <Button 
+                  onClick={() => switchMode('login')}
+                  variant="outline"
+                  className="w-full mt-4"
+                >
+                  Voltar para login
+                </Button>
+              </div>
+            ) : (
+              <form onSubmit={forgotForm.handleSubmit(handleForgotPassword)} className="space-y-4">
+                <div className="space-y-2">
+                  <Label htmlFor="forgot-email">Email</Label>
+                  <div className="relative">
+                    <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                    <Input
+                      id="forgot-email"
+                      type="email"
+                      placeholder="seu@email.com"
+                      className="pl-10"
+                      {...forgotForm.register('email')}
+                    />
+                  </div>
+                  {forgotForm.formState.errors.email && (
+                    <p className="text-xs text-destructive">{forgotForm.formState.errors.email.message}</p>
+                  )}
+                </div>
+
+                <Button 
+                  type="submit" 
+                  className="w-full bg-gradient-to-r from-warm-yellow via-warm-orange to-warm-red hover:opacity-90"
+                  disabled={isLoading}
+                >
+                  {isLoading ? (
+                    <>
+                      <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                      Enviando...
+                    </>
+                  ) : (
+                    <>
+                      <KeyRound className="h-4 w-4 mr-2" />
+                      Enviar link de recuperação
+                    </>
+                  )}
+                </Button>
+              </form>
+            )
+          ) : mode === 'login' ? (
+            /* Login Form */
             <form onSubmit={loginForm.handleSubmit(handleLogin)} className="space-y-4">
               <div className="space-y-2">
                 <Label htmlFor="login-email">Email</Label>
@@ -173,7 +287,16 @@ const Auth = () => {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="login-password">Senha</Label>
+                <div className="flex items-center justify-between">
+                  <Label htmlFor="login-password">Senha</Label>
+                  <button
+                    type="button"
+                    onClick={() => switchMode('forgot')}
+                    className="text-xs text-primary hover:underline"
+                  >
+                    Esqueceu a senha?
+                  </button>
+                </div>
                 <div className="relative">
                   <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                   <Input
@@ -326,18 +449,20 @@ const Auth = () => {
           )}
 
           {/* Toggle mode */}
-          <div className="mt-6 text-center">
-            <p className="text-sm text-muted-foreground">
-              {isLogin ? 'Não tem uma conta?' : 'Já tem uma conta?'}
-              <button
-                type="button"
-                onClick={toggleMode}
-                className="ml-1 text-primary hover:underline font-medium"
-              >
-                {isLogin ? 'Criar conta' : 'Fazer login'}
-              </button>
-            </p>
-          </div>
+          {mode !== 'forgot' && (
+            <div className="mt-6 text-center">
+              <p className="text-sm text-muted-foreground">
+                {mode === 'login' ? 'Não tem uma conta?' : 'Já tem uma conta?'}
+                <button
+                  type="button"
+                  onClick={() => switchMode(mode === 'login' ? 'signup' : 'login')}
+                  className="ml-1 text-primary hover:underline font-medium"
+                >
+                  {mode === 'login' ? 'Criar conta' : 'Fazer login'}
+                </button>
+              </p>
+            </div>
+          )}
         </div>
 
         {/* Footer */}
