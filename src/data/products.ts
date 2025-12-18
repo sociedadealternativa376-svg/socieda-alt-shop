@@ -84,6 +84,7 @@ import narg08015_2 from '@/assets/products/nariz/narg-08015-2.png';
 
 // Tragus/Orelha
 import rt01015 from '@/assets/products/tragus/rt-01015.png';
+import rt01015_2 from '@/assets/products/tragus/rt-01015-2.png';
 import rt02018 from '@/assets/products/tragus/rt-02018.png';
 import rt02018_2 from '@/assets/products/tragus/rt-02018-2.png';
 import rt03019 from '@/assets/products/tragus/rt-03019.png';
@@ -127,7 +128,11 @@ import rt27019 from '@/assets/products/tragus/rt-27019.png';
 import rt27019_2 from '@/assets/products/tragus/rt-27019-2.png';
 import rt28015 from '@/assets/products/tragus/rt-28015.png';
 import rt28015_2 from '@/assets/products/tragus/rt-28015-2.png';
+import rt29015 from '@/assets/products/tragus/rt-29015.png';
+import rt29015_2 from '@/assets/products/tragus/rt-29015-2.png';
 import rt29016 from '@/assets/products/tragus/rt-29016.png';
+import rt30015 from '@/assets/products/tragus/rt-30015.png';
+import rt30015_2 from '@/assets/products/tragus/rt-30015-2.png';
 import rt30016 from '@/assets/products/tragus/rt-30016.png';
 import rt31016 from '@/assets/products/tragus/rt-31016.png';
 import rt32016 from '@/assets/products/tragus/rt-32016.png';
@@ -135,8 +140,15 @@ import rt33016 from '@/assets/products/tragus/rt-33016.png';
 import rt34016 from '@/assets/products/tragus/rt-34016.png';
 import rt35016 from '@/assets/products/tragus/rt-35016.png';
 import rt36016 from '@/assets/products/tragus/rt-36016.png';
+import rt36021 from '@/assets/products/tragus/rt-36021.png';
 import rt37016 from '@/assets/products/tragus/rt-37016.png';
+import rt37021 from '@/assets/products/tragus/rt-37021.png';
+import rt37021_2 from '@/assets/products/tragus/rt-37021-2.png';
 import rt38016 from '@/assets/products/tragus/rt-38016.png';
+
+// Novas argolas de nariz adicionais
+import narg15023 from '@/assets/products/nariz/narg-15023.png';
+import narg15023_2 from '@/assets/products/nariz/narg-15023-2.png';
 
 export interface ProductWithGallery extends Product {
   gallery: string[];
@@ -753,6 +765,17 @@ export const products: ProductWithGallery[] = [
     description: 'Argola nariz trançada com bolinha disponível em dourado e prata em aço cirúrgico',
     inStock: true,
   },
+  {
+    id: 'narg-15023',
+    name: 'Argola Nariz Cristais Clicker',
+    price: 75.00,
+    image: narg15023,
+    gallery: [narg15023, narg15023_2],
+    category: 'joia',
+    subcategory: 'argola-nariz',
+    description: 'Argola nariz clicker com cristais em aço cirúrgico banhado a ouro',
+    inStock: true,
+  },
   
   // Piercings de Orelha (Tragus, Helix, etc.)
   {
@@ -760,10 +783,10 @@ export const products: ProductWithGallery[] = [
     name: 'Piercing Orelha Escorpião',
     price: 70.00,
     image: rt01015,
-    gallery: [rt01015],
+    gallery: [rt01015, rt01015_2],
     category: 'joia',
     subcategory: 'orelha',
-    description: 'Piercing orelha escorpião em aço cirúrgico banhado a ouro',
+    description: 'Piercing orelha escorpião disponível em dourado e prata em aço cirúrgico',
     inStock: true,
   },
   {
@@ -1116,6 +1139,50 @@ export const products: ProductWithGallery[] = [
     category: 'joia',
     subcategory: 'orelha',
     description: 'Piercing orelha mini cristal em aço cirúrgico',
+    inStock: true,
+  },
+  {
+    id: 'rt-29015',
+    name: 'Piercing Orelha Cavalo',
+    price: 70.00,
+    image: rt29015,
+    gallery: [rt29015, rt29015_2],
+    category: 'joia',
+    subcategory: 'orelha',
+    description: 'Piercing orelha cavalo correndo disponível em prata e dourado em aço cirúrgico',
+    inStock: true,
+  },
+  {
+    id: 'rt-30015',
+    name: 'Piercing Orelha Caveira Mexicana',
+    price: 70.00,
+    image: rt30015,
+    gallery: [rt30015, rt30015_2],
+    category: 'joia',
+    subcategory: 'orelha',
+    description: 'Piercing orelha caveira mexicana disponível em prata e dourado em aço cirúrgico',
+    inStock: true,
+  },
+  {
+    id: 'rt-36021',
+    name: 'Piercing Orelha Trio Borboletas Dourado',
+    price: 75.00,
+    image: rt36021,
+    gallery: [rt36021],
+    category: 'joia',
+    subcategory: 'orelha',
+    description: 'Piercing orelha trio de borboletas com cristais em aço cirúrgico banhado a ouro',
+    inStock: true,
+  },
+  {
+    id: 'rt-37021',
+    name: 'Piercing Orelha Trio Borboletas Prata',
+    price: 75.00,
+    image: rt37021,
+    gallery: [rt37021, rt37021_2],
+    category: 'joia',
+    subcategory: 'orelha',
+    description: 'Piercing orelha trio de borboletas com cristais em aço cirúrgico prata',
     inStock: true,
   },
 ];
