@@ -83,7 +83,17 @@ import narg08015 from '@/assets/products/nariz/narg-08015.png';
 import narg08015_2 from '@/assets/products/nariz/narg-08015-2.png';
 
 // Tragus/Orelha
+import rt07015 from '@/assets/products/tragus/rt-07015.png';
+import rt08016 from '@/assets/products/tragus/rt-08016.png';
+import rt09018 from '@/assets/products/tragus/rt-09018.png';
+import rt10018 from '@/assets/products/tragus/rt-10018.png';
+import rt10018_2 from '@/assets/products/tragus/rt-10018-2.png';
+import rt11018 from '@/assets/products/tragus/rt-11018.png';
+import rt11018_2 from '@/assets/products/tragus/rt-11018-2.png';
+import rt12018 from '@/assets/products/tragus/rt-12018.png';
+import rt12018_2 from '@/assets/products/tragus/rt-12018-2.png';
 import rt13019 from '@/assets/products/tragus/rt-13019.png';
+import rt13019_2 from '@/assets/products/tragus/rt-13019-2.png';
 import rt14018 from '@/assets/products/tragus/rt-14018.png';
 import rt14018_2 from '@/assets/products/tragus/rt-14018-2.png';
 import rt15018 from '@/assets/products/tragus/rt-15018.png';
@@ -736,14 +746,80 @@ export const products: ProductWithGallery[] = [
   
   // Piercings de Orelha (Tragus, Helix, etc.)
   {
+    id: 'rt-07015',
+    name: 'Piercing Orelha Cobra',
+    price: 70.00,
+    image: rt07015,
+    gallery: [rt07015],
+    category: 'joia',
+    subcategory: 'orelha',
+    description: 'Piercing orelha cobra dourada em aço cirúrgico banhado a ouro',
+    inStock: true,
+  },
+  {
+    id: 'rt-08016',
+    name: 'Piercing Orelha Flor Cristal',
+    price: 70.00,
+    image: rt08016,
+    gallery: [rt08016],
+    category: 'joia',
+    subcategory: 'orelha',
+    description: 'Piercing orelha flor com cristal disponível em prata e dourado em aço cirúrgico',
+    inStock: true,
+  },
+  {
+    id: 'rt-09018',
+    name: 'Piercing Orelha Folha Cristais',
+    price: 70.00,
+    image: rt09018,
+    gallery: [rt09018],
+    category: 'joia',
+    subcategory: 'orelha',
+    description: 'Piercing orelha folha com cristais em aço cirúrgico',
+    inStock: true,
+  },
+  {
+    id: 'rt-10018',
+    name: 'Piercing Orelha Coelhinho Cristais',
+    price: 70.00,
+    image: rt10018,
+    gallery: [rt10018, rt10018_2],
+    category: 'joia',
+    subcategory: 'orelha',
+    description: 'Piercing orelha coelhinho com cristais disponível em prata e dourado em aço cirúrgico',
+    inStock: true,
+  },
+  {
+    id: 'rt-11018',
+    name: 'Piercing Orelha Coelhinho Playboy',
+    price: 70.00,
+    image: rt11018,
+    gallery: [rt11018, rt11018_2],
+    category: 'joia',
+    subcategory: 'orelha',
+    description: 'Piercing orelha coelhinho playboy com cristais disponível em dourado e prata em aço cirúrgico',
+    inStock: true,
+  },
+  {
+    id: 'rt-12018',
+    name: 'Piercing Orelha Coração Cravejado',
+    price: 70.00,
+    image: rt12018,
+    gallery: [rt12018, rt12018_2],
+    category: 'joia',
+    subcategory: 'orelha',
+    description: 'Piercing orelha coração cravejado com cristais disponível em dourado e prata em aço cirúrgico',
+    inStock: true,
+  },
+  {
     id: 'rt-13019',
     name: 'Piercing Orelha Borboleta Lisa',
     price: 70.00,
     image: rt13019,
-    gallery: [rt13019],
+    gallery: [rt13019, rt13019_2],
     category: 'joia',
     subcategory: 'orelha',
-    description: 'Piercing tragus borboleta lisa com cristais em aço cirúrgico dourado',
+    description: 'Piercing tragus borboleta lisa com cristais em aço cirúrgico',
     inStock: true,
   },
   {
