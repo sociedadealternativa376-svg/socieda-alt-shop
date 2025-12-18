@@ -83,7 +83,17 @@ import narg08015 from '@/assets/products/nariz/narg-08015.png';
 import narg08015_2 from '@/assets/products/nariz/narg-08015-2.png';
 
 // Tragus/Orelha
+import rt01015 from '@/assets/products/tragus/rt-01015.png';
+import rt02018 from '@/assets/products/tragus/rt-02018.png';
+import rt02018_2 from '@/assets/products/tragus/rt-02018-2.png';
+import rt03019 from '@/assets/products/tragus/rt-03019.png';
+import rt03019_2 from '@/assets/products/tragus/rt-03019-2.png';
+import rt04015 from '@/assets/products/tragus/rt-04015.png';
+import rt04015_2 from '@/assets/products/tragus/rt-04015-2.png';
+import rt06016 from '@/assets/products/tragus/rt-06016.png';
+import rt06016_2 from '@/assets/products/tragus/rt-06016-2.png';
 import rt07015 from '@/assets/products/tragus/rt-07015.png';
+import rt07015_2 from '@/assets/products/tragus/rt-07015-2.png';
 import rt08016 from '@/assets/products/tragus/rt-08016.png';
 import rt09018 from '@/assets/products/tragus/rt-09018.png';
 import rt10018 from '@/assets/products/tragus/rt-10018.png';
@@ -746,14 +756,69 @@ export const products: ProductWithGallery[] = [
   
   // Piercings de Orelha (Tragus, Helix, etc.)
   {
+    id: 'rt-01015',
+    name: 'Piercing Orelha Escorpião',
+    price: 70.00,
+    image: rt01015,
+    gallery: [rt01015],
+    category: 'joia',
+    subcategory: 'orelha',
+    description: 'Piercing orelha escorpião em aço cirúrgico banhado a ouro',
+    inStock: true,
+  },
+  {
+    id: 'rt-02018',
+    name: 'Piercing Orelha Flor Mini Cristais',
+    price: 70.00,
+    image: rt02018,
+    gallery: [rt02018, rt02018_2],
+    category: 'joia',
+    subcategory: 'orelha',
+    description: 'Piercing orelha flor mini com cristais disponível em dourado e prata em aço cirúrgico',
+    inStock: true,
+  },
+  {
+    id: 'rt-03019',
+    name: 'Piercing Orelha Flor Cristais Grande',
+    price: 70.00,
+    image: rt03019,
+    gallery: [rt03019, rt03019_2],
+    category: 'joia',
+    subcategory: 'orelha',
+    description: 'Piercing orelha flor grande com cristais disponível em dourado e prata em aço cirúrgico',
+    inStock: true,
+  },
+  {
+    id: 'rt-04015',
+    name: 'Piercing Orelha Gatinho',
+    price: 70.00,
+    image: rt04015,
+    gallery: [rt04015, rt04015_2],
+    category: 'joia',
+    subcategory: 'orelha',
+    description: 'Piercing orelha gatinho fofo disponível em dourado e prata em aço cirúrgico',
+    inStock: true,
+  },
+  {
+    id: 'rt-06016',
+    name: 'Piercing Orelha Maçã Cristais',
+    price: 70.00,
+    image: rt06016,
+    gallery: [rt06016, rt06016_2],
+    category: 'joia',
+    subcategory: 'orelha',
+    description: 'Piercing orelha maçã com cristais disponível em dourado e prata em aço cirúrgico',
+    inStock: true,
+  },
+  {
     id: 'rt-07015',
     name: 'Piercing Orelha Cobra',
     price: 70.00,
     image: rt07015,
-    gallery: [rt07015],
+    gallery: [rt07015, rt07015_2],
     category: 'joia',
     subcategory: 'orelha',
-    description: 'Piercing orelha cobra dourada em aço cirúrgico banhado a ouro',
+    description: 'Piercing orelha cobra disponível em dourado e prata em aço cirúrgico',
     inStock: true,
   },
   {
