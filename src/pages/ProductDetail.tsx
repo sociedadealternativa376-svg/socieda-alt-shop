@@ -1,25 +1,20 @@
 import { useParams, useNavigate } from 'react-router-dom';
-import { ShoppingBag, Shield, Truck, RotateCcw } from 'lucide-react';
+import { MessageCircle, Calendar, Shield, Truck, RotateCcw } from 'lucide-react';
 import { products } from '@/data/products';
-import { useCart } from '@/context/CartContext';
-import { CartProvider } from '@/context/CartContext';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import Breadcrumbs from '@/components/Breadcrumbs';
 import { useState, useEffect } from 'react';
 
 const getProductGalleryImages = (product: (typeof products)[number]) => {
-  // Use real gallery when available (multiple angles/variations of the same item)
   const gallery = (product as any).gallery as string[] | undefined;
   return gallery && gallery.length > 0 ? gallery : [product.image];
 };
 
-const ProductDetailContent = () => {
+const ProductDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { addToCart } = useCart();
   const [selectedImage, setSelectedImage] = useState(0);
-  const [quantity, setQuantity] = useState(1);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -45,13 +40,16 @@ const ProductDetailContent = () => {
   }
 
   const productImages = getProductGalleryImages(product);
-  const totalPrice = product.price * quantity;
 
-  const handleAddToCart = () => {
-    for (let i = 0; i < quantity; i++) {
-      addToCart(product);
-    }
-    setQuantity(1);
+  const handleWhatsAppOrder = () => {
+    const message = encodeURIComponent(
+      `Olá! Tenho interesse no produto:\n\n*${product.name}*\nPreço: R$ ${product.price.toFixed(2)}\nCódigo: SA-${product.id.padStart(4, '0')}\n\nGostaria de mais informações!`
+    );
+    window.open(`https://wa.me/5511999999999?text=${message}`, '_blank');
+  };
+
+  const handleSchedule = () => {
+    navigate('/agendamento');
   };
 
   const relatedProducts = products
@@ -69,7 +67,6 @@ const ProductDetailContent = () => {
       <Header />
       <main className="pt-20 md:pt-24 pb-16 animate-fade-in">
         <div className="container mx-auto px-4">
-          {/* Breadcrumbs */}
           <Breadcrumbs items={breadcrumbItems} />
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
@@ -114,16 +111,9 @@ const ProductDetailContent = () => {
                 </h1>
               </div>
 
-              <div className="space-y-1">
-                <p className="text-3xl font-bold gradient-text">
-                  R$ {product.price.toFixed(2)}
-                </p>
-                {quantity > 1 && (
-                  <p className="text-lg text-muted-foreground">
-                    {quantity}x = <span className="text-primary font-semibold">R$ {totalPrice.toFixed(2)}</span>
-                  </p>
-                )}
-              </div>
+              <p className="text-3xl font-bold gradient-text">
+                R$ {product.price.toFixed(2)}
+              </p>
 
               <p className="text-muted-foreground text-lg leading-relaxed">
                 {product.description}
@@ -145,31 +135,21 @@ const ProductDetailContent = () => {
                 </div>
               </div>
 
-              {/* Quantity & Add to Cart */}
+              {/* Action Buttons */}
               <div className="flex flex-col sm:flex-row gap-4">
-                <div className="flex items-center border border-border rounded-lg">
-                  <button 
-                    onClick={() => setQuantity(q => Math.max(1, q - 1))}
-                    className="px-4 py-3 text-muted-foreground hover:text-primary transition-colors"
-                  >
-                    -
-                  </button>
-                  <span className="px-6 py-3 font-medium text-foreground min-w-[60px] text-center">
-                    {quantity}
-                  </span>
-                  <button 
-                    onClick={() => setQuantity(q => q + 1)}
-                    className="px-4 py-3 text-muted-foreground hover:text-primary transition-colors"
-                  >
-                    +
-                  </button>
-                </div>
                 <button 
-                  onClick={handleAddToCart}
-                  className="flex-1 flex items-center justify-center gap-3 px-8 py-4 rounded-lg bg-gradient-to-r from-warm-yellow via-warm-orange to-warm-red text-primary-foreground font-display text-xl tracking-wider transition-all hover:opacity-90 hover:scale-[1.02]"
+                  onClick={handleWhatsAppOrder}
+                  className="flex-1 flex items-center justify-center gap-3 px-8 py-4 rounded-lg bg-green-600 hover:bg-green-700 text-white font-display text-lg tracking-wider transition-all hover:scale-[1.02]"
                 >
-                  <ShoppingBag className="h-6 w-6" />
-                  ADICIONAR AO CARRINHO
+                  <MessageCircle className="h-6 w-6" />
+                  PEDIR VIA WHATSAPP
+                </button>
+                <button 
+                  onClick={handleSchedule}
+                  className="flex-1 flex items-center justify-center gap-3 px-8 py-4 rounded-lg bg-gradient-to-r from-warm-yellow via-warm-orange to-warm-red text-primary-foreground font-display text-lg tracking-wider transition-all hover:opacity-90 hover:scale-[1.02]"
+                >
+                  <Calendar className="h-6 w-6" />
+                  AGENDAR
                 </button>
               </div>
 
@@ -177,7 +157,7 @@ const ProductDetailContent = () => {
               <div className="flex items-center gap-2">
                 <span className={`w-3 h-3 rounded-full ${product.inStock ? 'bg-green-500' : 'bg-red-500'}`} />
                 <span className="text-sm text-muted-foreground">
-                  {product.inStock ? 'Em estoque' : 'Fora de estoque'}
+                  {product.inStock ? 'Disponível' : 'Indisponível'}
                 </span>
               </div>
 
@@ -251,14 +231,6 @@ const ProductDetailContent = () => {
       </main>
       <Footer />
     </div>
-  );
-};
-
-const ProductDetail = () => {
-  return (
-    <CartProvider>
-      <ProductDetailContent />
-    </CartProvider>
   );
 };
 

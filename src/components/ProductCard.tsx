@@ -1,23 +1,29 @@
 import { useNavigate } from 'react-router-dom';
 import { Product } from '@/types/product';
-import { useCart } from '@/context/CartContext';
-import { ShoppingBag, Eye } from 'lucide-react';
+import { MessageCircle, Calendar, Eye } from 'lucide-react';
 
 interface ProductCardProps {
   product: Product;
 }
 
 const ProductCard = ({ product }: ProductCardProps) => {
-  const { addToCart } = useCart();
   const navigate = useNavigate();
 
   const handleViewProduct = () => {
     navigate(`/produto/${product.id}`);
   };
 
-  const handleAddToCart = (e: React.MouseEvent) => {
+  const handleWhatsAppOrder = (e: React.MouseEvent) => {
     e.stopPropagation();
-    addToCart(product);
+    const message = encodeURIComponent(
+      `Olá! Tenho interesse no produto:\n\n*${product.name}*\nPreço: R$ ${product.price.toFixed(2)}\nCódigo: SA-${product.id.padStart(4, '0')}\n\nGostaria de mais informações!`
+    );
+    window.open(`https://wa.me/5511999999999?text=${message}`, '_blank');
+  };
+
+  const handleSchedule = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    navigate('/agendamento');
   };
 
   return (
@@ -56,17 +62,26 @@ const ProductCard = ({ product }: ProductCardProps) => {
           {product.description}
         </p>
         
-        <div className="flex items-center justify-between gap-2 mt-2">
+        <div className="flex flex-col gap-2 mt-2">
           <span className="text-sm md:text-xl font-bold gradient-text">
             R$ {product.price.toFixed(2)}
           </span>
-          <button 
-            onClick={handleAddToCart}
-            className="flex items-center justify-center gap-1 md:gap-2 px-2 md:px-4 py-1.5 md:py-2 rounded-full bg-gradient-to-r from-warm-yellow via-warm-orange to-warm-red text-primary-foreground font-medium text-[10px] md:text-sm transition-all hover:opacity-90 hover:scale-105 active:scale-95 shrink-0 shadow-md"
-          >
-            <ShoppingBag className="h-3 w-3 md:h-4 md:w-4" />
-            <span className="hidden sm:inline">Comprar</span>
-          </button>
+          <div className="flex items-center gap-2">
+            <button 
+              onClick={handleWhatsAppOrder}
+              className="flex-1 flex items-center justify-center gap-1 md:gap-2 px-2 md:px-3 py-1.5 md:py-2 rounded-full bg-green-600 hover:bg-green-700 text-white font-medium text-[10px] md:text-xs transition-all hover:scale-105 active:scale-95 shadow-md"
+            >
+              <MessageCircle className="h-3 w-3 md:h-4 md:w-4" />
+              <span className="hidden sm:inline">WhatsApp</span>
+            </button>
+            <button 
+              onClick={handleSchedule}
+              className="flex-1 flex items-center justify-center gap-1 md:gap-2 px-2 md:px-3 py-1.5 md:py-2 rounded-full bg-primary hover:bg-primary/90 text-primary-foreground font-medium text-[10px] md:text-xs transition-all hover:scale-105 active:scale-95 shadow-md"
+            >
+              <Calendar className="h-3 w-3 md:h-4 md:w-4" />
+              <span className="hidden sm:inline">Agendar</span>
+            </button>
+          </div>
         </div>
       </div>
     </div>
