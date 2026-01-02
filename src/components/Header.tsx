@@ -1,10 +1,8 @@
-import { ShoppingCart, Menu, X, User, LogOut, Loader2 } from 'lucide-react';
+import { Menu, X, User, LogOut, Loader2, Calendar } from 'lucide-react';
 import { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { useCart } from '@/context/CartContext';
 import { useAuth } from '@/context/AuthContext';
 import logo from '@/assets/logo.png';
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -13,12 +11,10 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import Cart from './Cart';
 import ThemeToggle from './ThemeToggle';
 import { toast } from 'sonner';
 
 const Header = () => {
-  const { itemCount } = useCart();
   const { user, loading, signOut } = useAuth();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const location = useLocation();
@@ -123,21 +119,15 @@ const Header = () => {
               </Link>
             )}
             
-            <Sheet>
-              <SheetTrigger asChild>
-                <button className="relative p-2 rounded-full bg-secondary hover:bg-secondary/80 transition-colors hover-glow">
-                  <ShoppingCart className="h-5 w-5 md:h-6 md:w-6 text-foreground" />
-                  {itemCount > 0 && (
-                    <span className="absolute -top-1 -right-1 h-5 w-5 rounded-full bg-primary text-primary-foreground text-xs font-bold flex items-center justify-center animate-pulse-glow">
-                      {itemCount}
-                    </span>
-                  )}
-                </button>
-              </SheetTrigger>
-              <SheetContent className="w-full sm:max-w-lg bg-card border-border">
-                <Cart />
-              </SheetContent>
-            </Sheet>
+            <Link to="/agendamento">
+              <Button variant="default" size="sm" className="hidden sm:flex">
+                <Calendar className="h-4 w-4 mr-2" />
+                Agendar
+              </Button>
+              <button className="sm:hidden p-2 rounded-full bg-primary hover:bg-primary/90 transition-colors">
+                <Calendar className="h-5 w-5 text-primary-foreground" />
+              </button>
+            </Link>
 
             {/* Mobile Menu Toggle */}
             <button 
