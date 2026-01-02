@@ -16,7 +16,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
   const handleWhatsAppOrder = (e: React.MouseEvent) => {
     e.stopPropagation();
     const message = encodeURIComponent(
-      `Olá! Tenho interesse no produto:\n\n*${product.name}*\nPreço: R$ ${product.price.toFixed(2)}\nCódigo: SA-${product.id.padStart(4, '0')}\n\nGostaria de mais informações!`
+      `Olá! Tenho interesse no produto:\n\n*${product.name}*\nPreço: R$ ${product.price.toFixed(2)}\nCódigo: ${product.id.toUpperCase()}\n\nGostaria de mais informações!`
     );
     window.open(`https://wa.me/5511999999999?text=${message}`, '_blank');
   };
