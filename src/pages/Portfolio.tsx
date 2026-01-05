@@ -151,13 +151,15 @@ const Portfolio = () => {
               Pronto para sua próxima tattoo?
             </h2>
             <p className="text-muted-foreground mb-6 max-w-lg mx-auto">
-              Agende uma consulta com um de nossos artistas e transforme sua ideia em realidade.
+              Entre em contato com um de nossos artistas e transforme sua ideia em realidade.
             </p>
             <a
-              href="/agendamento"
+              href="https://wa.me/5511952222008?text=Ol%C3%A1!%20Vim%20pelo%20site%20e%20gostaria%20de%20agendar%20uma%20consulta%20para%20tatuagem."
+              target="_blank"
+              rel="noopener noreferrer"
               className="inline-flex items-center justify-center h-12 px-8 font-medium text-primary-foreground bg-primary rounded-lg hover:bg-primary/90 transition-colors"
             >
-              Agendar Consulta
+              Falar no WhatsApp
             </a>
           </div>
         </section>

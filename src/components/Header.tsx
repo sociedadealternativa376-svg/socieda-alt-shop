@@ -1,4 +1,4 @@
-import { Menu, X, User, LogOut, Loader2, Calendar } from 'lucide-react';
+import { Menu, X, User, LogOut, Loader2, MessageCircle } from 'lucide-react';
 import { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '@/context/AuthContext';
@@ -68,10 +68,10 @@ const Header = () => {
               Produtos
             </a>
             <Link 
-              to="/agendamento" 
-              className={`transition-colors font-medium ${isActive('/agendamento') ? 'text-primary' : 'text-foreground/80 hover:text-primary'}`}
+              to="/portfolio" 
+              className={`transition-colors font-medium ${isActive('/portfolio') ? 'text-primary' : 'text-foreground/80 hover:text-primary'}`}
             >
-              Agendar
+              Portfólio
             </Link>
             <a href="/#sobre" className="text-foreground/80 hover:text-primary transition-colors font-medium">
               Sobre
@@ -119,15 +119,19 @@ const Header = () => {
               </Link>
             )}
             
-            <Link to="/agendamento">
+            <a 
+              href="https://wa.me/5511952222008?text=Ol%C3%A1!%20Vim%20pelo%20site%20e%20gostaria%20de%20mais%20informa%C3%A7%C3%B5es."
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <Button variant="default" size="sm" className="hidden sm:flex">
-                <Calendar className="h-4 w-4 mr-2" />
-                Agendar
+                <MessageCircle className="h-4 w-4 mr-2" />
+                WhatsApp
               </Button>
               <button className="sm:hidden p-2 rounded-full bg-primary hover:bg-primary/90 transition-colors">
-                <Calendar className="h-5 w-5 text-primary-foreground" />
+                <MessageCircle className="h-5 w-5 text-primary-foreground" />
               </button>
-            </Link>
+            </a>
 
             {/* Mobile Menu Toggle */}
             <button 
@@ -158,11 +162,11 @@ const Header = () => {
                 Produtos
               </a>
               <Link 
-                to="/agendamento" 
+                to="/portfolio" 
                 onClick={handleNavClick}
-                className={`py-3 px-4 rounded-lg transition-colors font-medium ${isActive('/agendamento') ? 'bg-primary/10 text-primary' : 'text-foreground/80 hover:bg-secondary'}`}
+                className={`py-3 px-4 rounded-lg transition-colors font-medium ${isActive('/portfolio') ? 'bg-primary/10 text-primary' : 'text-foreground/80 hover:bg-secondary'}`}
               >
-                Agendar
+                Portfólio
               </Link>
               <a 
                 href="/#sobre" 
