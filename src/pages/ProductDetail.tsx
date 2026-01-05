@@ -134,7 +134,7 @@ const ProductDetail = () => {
               {/* Action Button */}
               <button 
                 onClick={handleWhatsAppOrder}
-                className="w-full flex items-center justify-center gap-3 px-8 py-4 rounded-lg bg-green-600 hover:bg-green-700 text-white font-display text-lg tracking-wider transition-all hover:scale-[1.02]"
+                className="w-full flex items-center justify-center gap-3 px-8 py-4 rounded-lg bg-primary hover:bg-primary/90 text-primary-foreground font-display text-lg tracking-wider transition-all hover:scale-[1.02]"
               >
                 <MessageCircle className="h-6 w-6" />
                 PEDIR VIA WHATSAPP

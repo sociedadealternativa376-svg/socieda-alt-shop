@@ -63,7 +63,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
           </span>
           <button 
             onClick={handleWhatsAppOrder}
-            className="w-full flex items-center justify-center gap-2 px-3 py-2 rounded-full bg-green-600 hover:bg-green-700 text-white font-medium text-xs transition-all hover:scale-105 active:scale-95 shadow-md"
+            className="w-full flex items-center justify-center gap-2 px-3 py-2 rounded-full bg-primary hover:bg-primary/90 text-primary-foreground font-medium text-xs transition-all hover:scale-105 active:scale-95 shadow-md"
           >
             <MessageCircle className="h-4 w-4" />
             Pedir via WhatsApp
