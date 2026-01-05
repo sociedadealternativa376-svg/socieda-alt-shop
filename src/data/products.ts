@@ -607,7 +607,7 @@ export const products: ProductWithGallery[] = [
   {
     id: 'argola-08015',
     name: 'Argola Trançada Dourada com Bolinha',
-    price: 24.90,
+    price: 60.00,
     image: argola08015,
     gallery: [argola08015],
     category: 'joia',
@@ -618,7 +618,7 @@ export const products: ProductWithGallery[] = [
   {
     id: 'argola-09015',
     name: 'Argola Trançada Prata com Bolinha',
-    price: 22.90,
+    price: 70.00,
     image: argola09015,
     gallery: [argola09015],
     category: 'joia',
@@ -629,7 +629,7 @@ export const products: ProductWithGallery[] = [
   {
     id: 'argola-10021',
     name: 'Argola Clicker Articulada',
-    price: 29.90,
+    price: 70.00,
     image: argola10021,
     gallery: [argola10021, argola10021_2, argola10021_3],
     category: 'joia',
@@ -640,7 +640,7 @@ export const products: ProductWithGallery[] = [
   {
     id: 'argola-11021',
     name: 'Argola Clicker Articulada Média',
-    price: 32.90,
+    price: 60.00,
     image: argola11021,
     gallery: [argola11021],
     category: 'joia',
@@ -651,7 +651,7 @@ export const products: ProductWithGallery[] = [
   {
     id: 'argola-12021',
     name: 'Argola Lisa Clássica Prata',
-    price: 27.90,
+    price: 60.00,
     image: argola12021,
     gallery: [argola12021],
     category: 'joia',
@@ -662,7 +662,7 @@ export const products: ProductWithGallery[] = [
   {
     id: 'argola-13015',
     name: 'Argola Ferradura com Bolinhas',
-    price: 19.90,
+    price: 60.00,
     image: argola13015,
     gallery: [argola13015],
     category: 'joia',
@@ -673,7 +673,7 @@ export const products: ProductWithGallery[] = [
   {
     id: 'argola-14015',
     name: 'Argola Ferradura Média com Bolinhas',
-    price: 22.90,
+    price: 70.00,
     image: argola14015,
     gallery: [argola14015],
     category: 'joia',
@@ -774,7 +774,7 @@ export const products: ProductWithGallery[] = [
   {
     id: 'narg-15023',
     name: 'Argola Nariz Cristais Clicker',
-    price: 75.00,
+    price: 70.00,
     image: narg15023,
     gallery: [narg15023, narg15023_2],
     category: 'joia',
@@ -1172,7 +1172,7 @@ export const products: ProductWithGallery[] = [
   {
     id: 'rt-36021',
     name: 'Piercing Orelha Trio Borboletas Dourado',
-    price: 75.00,
+    price: 70.00,
     image: rt36021,
     gallery: [rt36021],
     category: 'joia',
@@ -1183,7 +1183,7 @@ export const products: ProductWithGallery[] = [
   {
     id: 'rt-37021',
     name: 'Piercing Orelha Trio Borboletas Prata',
-    price: 75.00,
+    price: 70.00,
     image: rt37021,
     gallery: [rt37021, rt37021_2],
     category: 'joia',
