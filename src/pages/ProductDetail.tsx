@@ -1,5 +1,5 @@
 import { useParams, useNavigate } from 'react-router-dom';
-import { MessageCircle, Calendar, Shield, Truck, RotateCcw } from 'lucide-react';
+import { MessageCircle, Shield, Truck, RotateCcw } from 'lucide-react';
 import { products } from '@/data/products';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
@@ -45,11 +45,7 @@ const ProductDetail = () => {
     const message = encodeURIComponent(
       `Olá! Tenho interesse no produto:\n\n*${product.name}*\nPreço: R$ ${product.price.toFixed(2)}\nCódigo: ${product.id.toUpperCase()}\n\nGostaria de mais informações!`
     );
-    window.open(`https://wa.me/5511999999999?text=${message}`, '_blank');
-  };
-
-  const handleSchedule = () => {
-    navigate('/agendamento');
+    window.open(`https://wa.me/5511952222008?text=${message}`, '_blank');
   };
 
   const relatedProducts = products
@@ -135,23 +131,14 @@ const ProductDetail = () => {
                 </div>
               </div>
 
-              {/* Action Buttons */}
-              <div className="flex flex-col sm:flex-row gap-4">
-                <button 
-                  onClick={handleWhatsAppOrder}
-                  className="flex-1 flex items-center justify-center gap-3 px-8 py-4 rounded-lg bg-green-600 hover:bg-green-700 text-white font-display text-lg tracking-wider transition-all hover:scale-[1.02]"
-                >
-                  <MessageCircle className="h-6 w-6" />
-                  PEDIR VIA WHATSAPP
-                </button>
-                <button 
-                  onClick={handleSchedule}
-                  className="flex-1 flex items-center justify-center gap-3 px-8 py-4 rounded-lg bg-gradient-to-r from-warm-yellow via-warm-orange to-warm-red text-primary-foreground font-display text-lg tracking-wider transition-all hover:opacity-90 hover:scale-[1.02]"
-                >
-                  <Calendar className="h-6 w-6" />
-                  AGENDAR
-                </button>
-              </div>
+              {/* Action Button */}
+              <button 
+                onClick={handleWhatsAppOrder}
+                className="w-full flex items-center justify-center gap-3 px-8 py-4 rounded-lg bg-green-600 hover:bg-green-700 text-white font-display text-lg tracking-wider transition-all hover:scale-[1.02]"
+              >
+                <MessageCircle className="h-6 w-6" />
+                PEDIR VIA WHATSAPP
+              </button>
 
               {/* Stock Status */}
               <div className="flex items-center gap-2">

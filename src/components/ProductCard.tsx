@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { Product } from '@/types/product';
-import { MessageCircle, Calendar, Eye } from 'lucide-react';
+import { MessageCircle, Eye } from 'lucide-react';
 
 interface ProductCardProps {
   product: Product;
@@ -18,12 +18,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
     const message = encodeURIComponent(
       `Olá! Tenho interesse no produto:\n\n*${product.name}*\nPreço: R$ ${product.price.toFixed(2)}\nCódigo: ${product.id.toUpperCase()}\n\nGostaria de mais informações!`
     );
-    window.open(`https://wa.me/5511999999999?text=${message}`, '_blank');
-  };
-
-  const handleSchedule = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    navigate('/agendamento');
+    window.open(`https://wa.me/5511952222008?text=${message}`, '_blank');
   };
 
   return (
@@ -66,22 +61,13 @@ const ProductCard = ({ product }: ProductCardProps) => {
           <span className="text-sm md:text-xl font-bold gradient-text">
             R$ {product.price.toFixed(2)}
           </span>
-          <div className="flex items-center gap-2">
-            <button 
-              onClick={handleWhatsAppOrder}
-              className="flex-1 flex items-center justify-center gap-1 md:gap-2 px-2 md:px-3 py-1.5 md:py-2 rounded-full bg-green-600 hover:bg-green-700 text-white font-medium text-[10px] md:text-xs transition-all hover:scale-105 active:scale-95 shadow-md"
-            >
-              <MessageCircle className="h-3 w-3 md:h-4 md:w-4" />
-              <span className="hidden sm:inline">WhatsApp</span>
-            </button>
-            <button 
-              onClick={handleSchedule}
-              className="flex-1 flex items-center justify-center gap-1 md:gap-2 px-2 md:px-3 py-1.5 md:py-2 rounded-full bg-primary hover:bg-primary/90 text-primary-foreground font-medium text-[10px] md:text-xs transition-all hover:scale-105 active:scale-95 shadow-md"
-            >
-              <Calendar className="h-3 w-3 md:h-4 md:w-4" />
-              <span className="hidden sm:inline">Agendar</span>
-            </button>
-          </div>
+          <button 
+            onClick={handleWhatsAppOrder}
+            className="w-full flex items-center justify-center gap-2 px-3 py-2 rounded-full bg-green-600 hover:bg-green-700 text-white font-medium text-xs transition-all hover:scale-105 active:scale-95 shadow-md"
+          >
+            <MessageCircle className="h-4 w-4" />
+            Pedir via WhatsApp
+          </button>
         </div>
       </div>
     </div>
