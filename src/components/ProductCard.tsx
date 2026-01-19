@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { Product } from '@/types/product';
-import { MessageCircle, Eye } from 'lucide-react';
+import { ShoppingBag, Eye } from 'lucide-react';
+import { useCart } from '@/context/CartContext';
 
 interface ProductCardProps {
   product: Product;
@@ -8,17 +9,15 @@ interface ProductCardProps {
 
 const ProductCard = ({ product }: ProductCardProps) => {
   const navigate = useNavigate();
+  const { addToCart } = useCart();
 
   const handleViewProduct = () => {
     navigate(`/produto/${product.id}`);
   };
 
-  const handleWhatsAppOrder = (e: React.MouseEvent) => {
+  const handleAddToCart = (e: React.MouseEvent) => {
     e.stopPropagation();
-    const message = encodeURIComponent(
-      `Olá! Tenho interesse no produto:\n\n*${product.name}*\nPreço: R$ ${product.price.toFixed(2)}\nCódigo: ${product.id.toUpperCase()}\n\nGostaria de mais informações!`
-    );
-    window.open(`https://wa.me/5511952222008?text=${message}`, '_blank');
+    addToCart(product);
   };
 
   return (
@@ -62,11 +61,11 @@ const ProductCard = ({ product }: ProductCardProps) => {
             R$ {product.price.toFixed(2)}
           </span>
           <button 
-            onClick={handleWhatsAppOrder}
-            className="w-full flex items-center justify-center gap-2 px-3 py-2 rounded-full bg-primary hover:bg-primary/90 text-primary-foreground font-medium text-xs transition-all hover:scale-105 active:scale-95 shadow-md"
+            onClick={handleAddToCart}
+            className="w-full flex items-center justify-center gap-2 px-3 py-2 rounded-full bg-gradient-to-r from-warm-yellow via-warm-orange to-warm-red hover:opacity-90 text-white font-medium text-xs transition-all hover:scale-105 active:scale-95 shadow-md hover:shadow-lg"
           >
-            <MessageCircle className="h-4 w-4" />
-            Pedir via WhatsApp
+            <ShoppingBag className="h-4 w-4" />
+            Comprar
           </button>
         </div>
       </div>

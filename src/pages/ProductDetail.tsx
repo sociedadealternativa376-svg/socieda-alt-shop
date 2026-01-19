@@ -1,10 +1,11 @@
 import { useParams, useNavigate } from 'react-router-dom';
-import { MessageCircle, Shield, Truck, RotateCcw } from 'lucide-react';
+import { ShoppingBag, Shield, Truck, RotateCcw } from 'lucide-react';
 import { products } from '@/data/products';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import Breadcrumbs from '@/components/Breadcrumbs';
 import { useState, useEffect } from 'react';
+import { useCart } from '@/context/CartContext';
 
 const getProductGalleryImages = (product: (typeof products)[number]) => {
   const gallery = (product as any).gallery as string[] | undefined;
@@ -14,6 +15,7 @@ const getProductGalleryImages = (product: (typeof products)[number]) => {
 const ProductDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { addToCart } = useCart();
   const [selectedImage, setSelectedImage] = useState(0);
 
   useEffect(() => {
@@ -41,11 +43,8 @@ const ProductDetail = () => {
 
   const productImages = getProductGalleryImages(product);
 
-  const handleWhatsAppOrder = () => {
-    const message = encodeURIComponent(
-      `Olá! Tenho interesse no produto:\n\n*${product.name}*\nPreço: R$ ${product.price.toFixed(2)}\nCódigo: ${product.id.toUpperCase()}\n\nGostaria de mais informações!`
-    );
-    window.open(`https://wa.me/5511952222008?text=${message}`, '_blank');
+  const handleAddToCart = () => {
+    addToCart(product);
   };
 
   const relatedProducts = products
@@ -133,11 +132,11 @@ const ProductDetail = () => {
 
               {/* Action Button */}
               <button 
-                onClick={handleWhatsAppOrder}
-                className="w-full flex items-center justify-center gap-3 px-8 py-4 rounded-lg bg-primary hover:bg-primary/90 text-primary-foreground font-display text-lg tracking-wider transition-all hover:scale-[1.02]"
+                onClick={handleAddToCart}
+                className="w-full flex items-center justify-center gap-3 px-8 py-4 rounded-lg bg-gradient-to-r from-warm-yellow via-warm-orange to-warm-red hover:opacity-90 text-white font-display text-lg tracking-wider transition-all hover:scale-[1.02] hover:shadow-lg animate-pulse-glow"
               >
-                <MessageCircle className="h-6 w-6" />
-                PEDIR VIA WHATSAPP
+                <ShoppingBag className="h-6 w-6" />
+                ADICIONAR AO CARRINHO
               </button>
 
               {/* Stock Status */}
