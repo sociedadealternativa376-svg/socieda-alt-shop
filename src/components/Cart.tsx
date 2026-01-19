@@ -1,26 +1,30 @@
-import { Trash2, Plus, Minus, CreditCard } from 'lucide-react';
+import { Trash2, Plus, Minus, ShoppingBag, MessageCircle } from 'lucide-react';
 import { useCart } from '@/context/CartContext';
 import { Button } from '@/components/ui/button';
-import { useState } from 'react';
-import Checkout from './Checkout';
 
 const Cart = () => {
   const { items, removeFromCart, updateQuantity, total, clearCart } = useCart();
-  const [showCheckout, setShowCheckout] = useState(false);
 
-  if (showCheckout) {
-    return <Checkout onBack={() => setShowCheckout(false)} />;
-  }
+  const handleWhatsAppOrder = () => {
+    const itemsList = items.map(item => 
+      `• ${item.name} (${item.id.toUpperCase()}) - Qtd: ${item.quantity} - R$ ${(item.price * item.quantity).toFixed(2)}`
+    ).join('\n');
+    
+    const message = encodeURIComponent(
+      `Olá! Gostaria de fazer um pedido:\n\n${itemsList}\n\n*Total: R$ ${total.toFixed(2)}*\n\nPor favor, confirme a disponibilidade!`
+    );
+    window.open(`https://wa.me/5511952222008?text=${message}`, '_blank');
+  };
 
   if (items.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center h-full py-12">
         <div className="w-24 h-24 rounded-full bg-secondary flex items-center justify-center mb-6">
-          <CreditCard className="h-12 w-12 text-muted-foreground" />
+          <ShoppingBag className="h-12 w-12 text-muted-foreground" />
         </div>
         <h3 className="text-xl font-display text-foreground mb-2">Carrinho Vazio</h3>
         <p className="text-muted-foreground text-center">
-          Adicione produtos para começar suas compras
+          Adicione produtos para fazer seu pedido
         </p>
       </div>
     );
@@ -53,7 +57,7 @@ const Cart = () => {
             />
             <div className="flex-1">
               <h4 className="font-medium text-foreground">{item.name}</h4>
-              <p className="text-sm text-muted-foreground capitalize">{item.category}</p>
+              <p className="text-xs text-muted-foreground uppercase">{item.id}</p>
               <p className="text-primary font-bold mt-1">
                 R$ {item.price.toFixed(2)}
               </p>
@@ -87,15 +91,19 @@ const Cart = () => {
 
       <div className="border-t border-border pt-6 mt-6 space-y-4">
         <div className="flex justify-between text-lg">
-          <span className="text-muted-foreground">Subtotal:</span>
+          <span className="text-muted-foreground">Total:</span>
           <span className="font-bold gradient-text">R$ {total.toFixed(2)}</span>
         </div>
         <Button 
-          className="w-full h-14 text-lg font-display tracking-wider bg-gradient-to-r from-warm-yellow via-warm-orange to-warm-red hover:opacity-90 transition-opacity text-primary-foreground"
-          onClick={() => setShowCheckout(true)}
+          className="w-full h-14 text-lg font-display tracking-wider bg-[#25D366] hover:bg-[#20BD5A] transition-colors text-white gap-2"
+          onClick={handleWhatsAppOrder}
         >
-          FINALIZAR COMPRA
+          <MessageCircle className="h-5 w-5" />
+          PEDIR VIA WHATSAPP
         </Button>
+        <p className="text-xs text-center text-muted-foreground">
+          Seus itens serão enviados via WhatsApp para confirmarmos o pedido
+        </p>
       </div>
     </div>
   );
