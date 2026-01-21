@@ -1,33 +1,59 @@
 import { useState, useEffect, useCallback } from 'react';
-import { Copy, Check, Clock, QrCode, AlertCircle } from 'lucide-react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { Copy, Check, Clock, QrCode, AlertCircle, ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
 import { Skeleton } from '@/components/ui/skeleton';
 import { toast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
+import { useAuth } from '@/context/AuthContext';
+import { CartItem } from '@/types/product';
 
-interface PixCheckoutProps {
-  qrCodeImage?: string;
-  pixCode?: string;
-  valor?: number;
-  tempoExpiracao?: number; // in seconds
-  statusPagamento?: 'pending' | 'paid' | 'expired';
-  orderId?: string;
+interface OrderData {
+  items: CartItem[];
+  total: number;
+  orderId: string;
 }
 
-const PixCheckout = ({
-  qrCodeImage = '',
-  pixCode = '00020126580014br.gov.bcb.pix0136a629534e-7693-4846-b028-example5204000053039865802BR5925LOJA EXEMPLO LTDA6009SAO PAULO62070503***6304ABCD',
-  valor = 89.90,
-  tempoExpiracao = 600, // 10 minutes default
-  statusPagamento = 'pending',
-  orderId = '1023',
-}: PixCheckoutProps) => {
-  const [timeLeft, setTimeLeft] = useState(tempoExpiracao);
+const PixCheckout = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const { user, loading: authLoading } = useAuth();
+  
+  const orderData = location.state as OrderData | null;
+  
+  const [timeLeft, setTimeLeft] = useState(600); // 10 minutes
   const [copied, setCopied] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const [status, setStatus] = useState(statusPagamento);
+  const [status, setStatus] = useState<'pending' | 'paid' | 'expired'>('pending');
+
+  // Mock Pix code - in production this would come from API
+  const pixCode = '00020126580014br.gov.bcb.pix0136a629534e-7693-4846-b028-example5204000053039865802BR5925LOJA EXEMPLO LTDA6009SAO PAULO62070503***6304ABCD';
+
+  // Redirect if not logged in
+  useEffect(() => {
+    if (!authLoading && !user) {
+      toast({
+        title: "Login necessário",
+        description: "Faça login para continuar com o pagamento.",
+        variant: "destructive",
+      });
+      navigate('/auth', { state: { from: '/checkout/pix', orderData } });
+    }
+  }, [user, authLoading, navigate, orderData]);
+
+  // Redirect if no order data
+  useEffect(() => {
+    if (!authLoading && user && !orderData) {
+      toast({
+        title: "Carrinho vazio",
+        description: "Adicione produtos ao carrinho para fazer o checkout.",
+        variant: "destructive",
+      });
+      navigate('/');
+    }
+  }, [orderData, user, authLoading, navigate]);
 
   // Simulate loading
   useEffect(() => {
@@ -76,7 +102,27 @@ const PixCheckout = ({
     }
   };
 
-  const progressPercentage = (timeLeft / tempoExpiracao) * 100;
+  const handleConfirmPayment = () => {
+    // In production, this would verify with API
+    // For now, simulate success
+    setStatus('paid');
+    toast({
+      title: "Verificando pagamento...",
+      description: "Aguarde enquanto confirmamos seu pagamento.",
+    });
+    
+    setTimeout(() => {
+      navigate('/checkout/sucesso', { 
+        state: { 
+          orderId: orderData?.orderId,
+          total: orderData?.total,
+          items: orderData?.items
+        } 
+      });
+    }, 2000);
+  };
+
+  const progressPercentage = (timeLeft / 600) * 100;
 
   const getStatusConfig = () => {
     switch (status) {
@@ -106,15 +152,45 @@ const PixCheckout = ({
 
   const statusConfig = getStatusConfig();
 
+  // Show loading while checking auth
+  if (authLoading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-b from-background to-secondary/20 flex items-center justify-center p-4">
+        <Card className="w-full max-w-md">
+          <CardContent className="py-12">
+            <div className="flex flex-col items-center gap-4">
+              <Skeleton className="h-8 w-48" />
+              <Skeleton className="h-56 w-56 rounded-xl" />
+              <Skeleton className="h-12 w-full" />
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
+
+  if (!user || !orderData) {
+    return null;
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-background to-secondary/20 flex items-center justify-center p-4">
       <Card className="w-full max-w-md shadow-xl border-border/50 animate-fade-in">
         <CardHeader className="text-center pb-4">
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => navigate('/')}
+            className="absolute left-4 top-4"
+          >
+            <ArrowLeft className="h-4 w-4 mr-1" />
+            Voltar
+          </Button>
           <CardTitle className="text-2xl font-display tracking-wide">
             Pagamento via Pix
           </CardTitle>
           <p className="text-muted-foreground text-sm mt-1">
-            Pedido #{orderId}
+            Pedido #{orderData.orderId}
           </p>
         </CardHeader>
 
@@ -134,11 +210,30 @@ const PixCheckout = ({
             {statusConfig.label}
           </div>
 
+          {/* Order Summary */}
+          <div className="bg-secondary/30 rounded-lg p-3 space-y-2">
+            <p className="text-xs text-muted-foreground font-medium uppercase tracking-wide">
+              Resumo do pedido
+            </p>
+            <div className="space-y-1 max-h-24 overflow-y-auto">
+              {orderData.items.map((item) => (
+                <div key={item.id} className="flex justify-between text-sm">
+                  <span className="text-foreground">
+                    {item.quantity}x {item.name}
+                  </span>
+                  <span className="text-muted-foreground">
+                    R$ {(item.price * item.quantity).toFixed(2).replace('.', ',')}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+
           {/* Total Value */}
           <div className="text-center">
             <p className="text-muted-foreground text-sm">Valor total</p>
             <p className="text-3xl font-bold text-foreground">
-              R$ {valor.toFixed(2).replace('.', ',')}
+              R$ {orderData.total.toFixed(2).replace('.', ',')}
             </p>
           </div>
 
@@ -148,20 +243,12 @@ const PixCheckout = ({
               <Skeleton className="w-56 h-56 rounded-xl" />
             ) : (
               <div className="relative p-4 bg-white rounded-xl shadow-inner border border-border/30">
-                {qrCodeImage ? (
-                  <img
-                    src={qrCodeImage}
-                    alt="QR Code Pix"
-                    className="w-48 h-48 object-contain"
-                  />
-                ) : (
-                  <div className="w-48 h-48 flex flex-col items-center justify-center gap-3 text-muted-foreground">
-                    <QrCode className="w-24 h-24 opacity-30" />
-                    <span className="text-xs text-center">
-                      QR Code será exibido aqui
-                    </span>
-                  </div>
-                )}
+                <div className="w-48 h-48 flex flex-col items-center justify-center gap-3 text-muted-foreground">
+                  <QrCode className="w-24 h-24 opacity-30" />
+                  <span className="text-xs text-center">
+                    QR Code será exibido aqui
+                  </span>
+                </div>
                 {status === 'expired' && (
                   <div className="absolute inset-0 bg-background/80 backdrop-blur-sm rounded-xl flex items-center justify-center">
                     <p className="text-destructive font-medium">Expirado</p>
@@ -235,6 +322,7 @@ const PixCheckout = ({
           <Button
             variant="outline"
             disabled={status !== 'pending'}
+            onClick={handleConfirmPayment}
             className="w-full h-12 text-base border-2"
           >
             Já paguei

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { Eye, EyeOff, Mail, Lock, User, Loader2, ArrowLeft, Sparkles, KeyRound } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -25,6 +25,15 @@ const forgotPasswordSchema = z.object({
 
 type ForgotPasswordFormData = z.infer<typeof forgotPasswordSchema>;
 
+interface LocationState {
+  from?: string;
+  orderData?: {
+    items: any[];
+    total: number;
+    orderId: string;
+  };
+}
+
 const Auth = () => {
   const [mode, setMode] = useState<'login' | 'signup' | 'forgot'>('login');
   const [showPassword, setShowPassword] = useState(false);
@@ -34,15 +43,25 @@ const Auth = () => {
   const [emailSent, setEmailSent] = useState(false);
   
   const navigate = useNavigate();
+  const location = useLocation();
   const { user, signIn, signUp, signInWithGoogle, resetPassword } = useAuth();
   const [isGoogleLoading, setIsGoogleLoading] = useState(false);
+
+  const locationState = location.state as LocationState | null;
+  const redirectTo = locationState?.from || '/';
+  const orderData = locationState?.orderData;
 
   // Redirect if already logged in
   useEffect(() => {
     if (user) {
-      navigate('/');
+      // If there's pending order data, redirect to checkout
+      if (orderData && redirectTo === '/checkout/pix') {
+        navigate('/checkout/pix', { state: orderData });
+      } else {
+        navigate(redirectTo);
+      }
     }
-  }, [user, navigate]);
+  }, [user, navigate, redirectTo, orderData]);
 
   const loginForm = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),

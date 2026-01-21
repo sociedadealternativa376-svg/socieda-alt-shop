@@ -13,6 +13,7 @@ import AdminLogin from "./pages/AdminLogin";
 import Auth from "./pages/Auth";
 import ResetPassword from "./pages/ResetPassword";
 import PixCheckout from "./pages/PixCheckout";
+import CheckoutSuccess from "./pages/CheckoutSuccess";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -34,6 +35,7 @@ const App = () => (
             <Route path="/admin" element={<Admin />} />
             <Route path="/admin/login" element={<AdminLogin />} />
             <Route path="/checkout/pix" element={<PixCheckout />} />
+            <Route path="/checkout/sucesso" element={<CheckoutSuccess />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
