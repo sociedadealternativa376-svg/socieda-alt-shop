@@ -1,7 +1,8 @@
 import { useState, useMemo, useEffect } from 'react';
-import { products } from '@/data/products';
+import { products, categories, subcategoryLabels } from '@/data/products';
 import ProductCard from './ProductCard';
 import ProductCardSkeleton from './ProductCardSkeleton';
+import ProductCarousel from './ProductCarousel';
 import CategorySidebar from './CategorySidebar';
 import MobileCategoryFilter from './MobileCategoryFilter';
 import { Search } from 'lucide-react';
@@ -119,17 +120,38 @@ const ProductGrid = () => {
                   <ProductCardSkeleton key={i} />
                 ))}
               </div>
-            ) : filteredProducts.length > 0 ? (
-              <div className="grid grid-cols-2 md:grid-cols-2 xl:grid-cols-3 gap-3 md:gap-6">
-                {filteredProducts.map((product) => (
-                  <ProductCard key={product.id} product={product} />
-                ))}
-              </div>
+            ) : selectedCategory || selectedSubcategory || searchTerm ? (
+              // Grid view when filtering
+              filteredProducts.length > 0 ? (
+                <div className="grid grid-cols-2 md:grid-cols-2 xl:grid-cols-3 gap-3 md:gap-6">
+                  {filteredProducts.map((product) => (
+                    <ProductCard key={product.id} product={product} />
+                  ))}
+                </div>
+              ) : (
+                <div className="text-center py-12">
+                  <p className="text-muted-foreground text-lg">
+                    Nenhum produto encontrado nesta categoria.
+                  </p>
+                </div>
+              )
             ) : (
-              <div className="text-center py-12">
-                <p className="text-muted-foreground text-lg">
-                  Nenhum produto encontrado nesta categoria.
-                </p>
+              // Carousel view for all products grouped by subcategory
+              <div className="space-y-4">
+                {categories.map((category) =>
+                  category.subcategories.map((subcategory) => {
+                    const subcategoryProducts = products.filter(
+                      (p) => p.subcategory === subcategory
+                    );
+                    return (
+                      <ProductCarousel
+                        key={subcategory}
+                        title={subcategoryLabels[subcategory] || subcategory}
+                        products={subcategoryProducts}
+                      />
+                    );
+                  })
+                )}
               </div>
             )}
           </div>
