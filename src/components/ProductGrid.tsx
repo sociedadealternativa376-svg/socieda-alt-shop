@@ -137,7 +137,7 @@ const ProductGrid = () => {
               )
             ) : (
               // Carousel view for all products grouped by subcategory
-              <div className="space-y-4">
+              <div className="space-y-2 md:space-y-4">
                 {categories.map((category) =>
                   category.subcategories.map((subcategory) => {
                     const subcategoryProducts = products.filter(
@@ -148,6 +148,7 @@ const ProductGrid = () => {
                         key={subcategory}
                         title={subcategoryLabels[subcategory] || subcategory}
                         products={subcategoryProducts}
+                        onViewAll={() => handleSelectCategory(category.id, subcategory)}
                       />
                     );
                   })
