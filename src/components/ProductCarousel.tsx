@@ -52,11 +52,11 @@ const ProductCarousel = ({ title, products, onViewAll }: ProductCarouselProps) =
           }}
           className="w-full"
         >
-          <CarouselContent className="-ml-3 md:-ml-4">
+          <CarouselContent className="-ml-2 md:-ml-3">
             {products.map((product) => (
               <CarouselItem
                 key={product.id}
-                className="pl-3 md:pl-4 basis-[42%] sm:basis-[35%] md:basis-[28%] lg:basis-[22%] xl:basis-[18%]"
+                className="pl-2 md:pl-3 basis-[32%] sm:basis-[28%] md:basis-[22%] lg:basis-[18%] xl:basis-[15%]"
               >
                 <ProductCard product={product} />
               </CarouselItem>
