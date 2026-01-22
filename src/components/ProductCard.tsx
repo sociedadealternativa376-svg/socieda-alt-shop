@@ -25,11 +25,11 @@ const ProductCard = ({ product }: ProductCardProps) => {
       className="group relative bg-card rounded-xl overflow-hidden gradient-border cursor-pointer transition-all duration-300 hover:shadow-[0_8px_30px_hsl(var(--primary)/0.2)] hover:-translate-y-1 h-full flex flex-col"
       onClick={handleViewProduct}
     >
-      <div className="aspect-square overflow-hidden relative flex-shrink-0">
+      <div className="aspect-[4/5] md:aspect-square overflow-hidden relative flex-shrink-0 bg-secondary">
         <img 
           src={product.image} 
           alt={product.name}
-          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+          className="w-full h-full object-contain p-3 md:p-0 transition-transform duration-500 group-hover:scale-105"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/20 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300" />
         
