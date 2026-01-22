@@ -29,11 +29,11 @@ const ProductCarousel = ({ title, products }: ProductCarouselProps) => {
           }}
           className="w-full"
         >
-          <CarouselContent className="-ml-2 md:-ml-4">
+          <CarouselContent className="-ml-3 md:-ml-4">
             {products.map((product) => (
               <CarouselItem
                 key={product.id}
-                className="pl-2 md:pl-4 basis-1/2 md:basis-1/3 lg:basis-1/4 xl:basis-1/5"
+                className="pl-3 md:pl-4 basis-[45%] sm:basis-[40%] md:basis-1/3 lg:basis-1/4 xl:basis-1/5"
               >
                 <ProductCard product={product} />
               </CarouselItem>
