@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { Product } from '@/types/product';
 import ProductCardCompact from './ProductCardCompact';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
@@ -11,6 +11,9 @@ interface ProductCarouselProps {
 
 const ProductCarousel = ({ title, products, onViewAll }: ProductCarouselProps) => {
   const scrollRef = useRef<HTMLDivElement>(null);
+  const [isDragging, setIsDragging] = useState(false);
+  const [startX, setStartX] = useState(0);
+  const [scrollLeft, setScrollLeft] = useState(0);
 
   if (products.length === 0) return null;
 
@@ -22,6 +25,38 @@ const ProductCarousel = ({ title, products, onViewAll }: ProductCarouselProps) =
         behavior: 'smooth'
       });
     }
+  };
+
+  const handleMouseDown = (e: React.MouseEvent) => {
+    if (!scrollRef.current) return;
+    setIsDragging(true);
+    setStartX(e.pageX - scrollRef.current.offsetLeft);
+    setScrollLeft(scrollRef.current.scrollLeft);
+  };
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!isDragging || !scrollRef.current) return;
+    e.preventDefault();
+    const x = e.pageX - scrollRef.current.offsetLeft;
+    const walk = (x - startX) * 1.5;
+    scrollRef.current.scrollLeft = scrollLeft - walk;
+  };
+
+  const handleMouseUp = () => {
+    setIsDragging(false);
+  };
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    if (!scrollRef.current) return;
+    setStartX(e.touches[0].pageX - scrollRef.current.offsetLeft);
+    setScrollLeft(scrollRef.current.scrollLeft);
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    if (!scrollRef.current) return;
+    const x = e.touches[0].pageX - scrollRef.current.offsetLeft;
+    const walk = (x - startX) * 1.5;
+    scrollRef.current.scrollLeft = scrollLeft - walk;
   };
 
   return (
@@ -59,11 +94,17 @@ const ProductCarousel = ({ title, products, onViewAll }: ProductCarouselProps) =
         </div>
       </div>
 
-      {/* Scrollable Product Row */}
+      {/* Scrollable Product Row - Draggable */}
       <div 
         ref={scrollRef}
-        className="flex gap-2 md:gap-3 overflow-x-auto scrollbar-hide scroll-smooth pb-2"
+        className={`flex gap-2 md:gap-3 overflow-x-auto scrollbar-hide scroll-smooth pb-2 select-none ${isDragging ? 'cursor-grabbing' : 'cursor-grab'}`}
         style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+        onMouseDown={handleMouseDown}
+        onMouseMove={handleMouseMove}
+        onMouseUp={handleMouseUp}
+        onMouseLeave={handleMouseUp}
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
       >
         {products.map((product) => (
           <div 
