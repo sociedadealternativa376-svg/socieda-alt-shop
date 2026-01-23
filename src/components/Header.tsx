@@ -36,16 +36,19 @@ const Header = () => {
   };
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-md border-b border-border">
+    <header className="fixed top-0 left-0 right-0 z-50 glass border-b border-border/30">
       <div className="container mx-auto px-3 md:px-4">
         <div className="flex items-center justify-between h-16 md:h-20">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2 md:gap-3 group" onClick={handleNavClick}>
-            <img 
-              src={logo} 
-              alt="Sociedade Alternativa" 
-              className="h-10 w-10 md:h-14 md:w-14 object-contain transition-transform group-hover:scale-110"
-            />
+            <div className="relative">
+              <div className="absolute inset-0 bg-primary/20 rounded-full blur-lg opacity-0 group-hover:opacity-100 transition-opacity" />
+              <img 
+                src={logo} 
+                alt="Sociedade Alternativa" 
+                className="relative h-10 w-10 md:h-14 md:w-14 object-contain transition-transform group-hover:scale-110 group-hover:rotate-3"
+              />
+            </div>
             <div className="hidden sm:block">
               <h1 className="text-lg md:text-xl font-display tracking-wider gradient-text">
                 SOCIEDADE ALTERNATIVA
@@ -57,26 +60,26 @@ const Header = () => {
           </Link>
 
           {/* Navigation Desktop */}
-          <nav className="hidden md:flex items-center gap-8">
+          <nav className="hidden md:flex items-center gap-1">
             <Link 
               to="/" 
-              className={`transition-colors font-medium ${isActive('/') && location.pathname === '/' ? 'text-primary' : 'text-foreground/80 hover:text-primary'}`}
+              className={`link-underline px-4 py-2 rounded-lg transition-all font-medium ${isActive('/') && location.pathname === '/' ? 'text-primary bg-primary/5' : 'text-foreground/70 hover:text-primary hover:bg-primary/5'}`}
             >
               Início
             </Link>
-            <a href="/#produtos" className="text-foreground/80 hover:text-primary transition-colors font-medium">
+            <a href="/#produtos" className="link-underline px-4 py-2 rounded-lg text-foreground/70 hover:text-primary hover:bg-primary/5 transition-all font-medium">
               Produtos
             </a>
             <Link 
               to="/portfolio" 
-              className={`transition-colors font-medium ${isActive('/portfolio') ? 'text-primary' : 'text-foreground/80 hover:text-primary'}`}
+              className={`link-underline px-4 py-2 rounded-lg transition-all font-medium ${isActive('/portfolio') ? 'text-primary bg-primary/5' : 'text-foreground/70 hover:text-primary hover:bg-primary/5'}`}
             >
               Portfólio
             </Link>
-            <a href="/#sobre" className="text-foreground/80 hover:text-primary transition-colors font-medium">
+            <a href="/#sobre" className="link-underline px-4 py-2 rounded-lg text-foreground/70 hover:text-primary hover:bg-primary/5 transition-all font-medium">
               Sobre
             </a>
-            <a href="/#contato" className="text-foreground/80 hover:text-primary transition-colors font-medium">
+            <a href="/#contato" className="link-underline px-4 py-2 rounded-lg text-foreground/70 hover:text-primary hover:bg-primary/5 transition-all font-medium">
               Contato
             </a>
           </nav>

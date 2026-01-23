@@ -64,48 +64,61 @@ const ProductGrid = () => {
   };
 
   return (
-    <section id="produtos" className="py-8 md:py-16">
-      <div className="container mx-auto px-4">
-        <div className="text-center mb-6 md:mb-12">
-          <h2 className="text-3xl md:text-5xl font-display gradient-text mb-2 md:mb-4">
+    <section id="produtos" className="py-12 md:py-20 relative overflow-hidden">
+      {/* Background decoration */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary/3 rounded-full blur-3xl" />
+        <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-warm-red/3 rounded-full blur-3xl" />
+      </div>
+
+      <div className="container mx-auto px-4 relative">
+        {/* Section Header */}
+        <div className="text-center mb-8 md:mb-14">
+          <span className="inline-block px-4 py-1.5 rounded-full bg-primary/10 text-primary text-xs font-medium tracking-wider mb-4 animate-fade-in">
+            CATÁLOGO EXCLUSIVO
+          </span>
+          <h2 className="text-3xl md:text-6xl font-display text-gradient-animate mb-3 md:mb-4">
             {getCategoryTitle()}
           </h2>
-          <p className="text-sm md:text-base text-muted-foreground max-w-2xl mx-auto">
+          <p className="text-sm md:text-lg text-muted-foreground max-w-2xl mx-auto">
             {selectedSubcategory 
               ? `Explore nossa coleção de ${selectedSubcategory}`
               : selectedCategory
                 ? `Descubra nossa seleção de ${selectedCategory}s`
-                : 'Descubra nossa seleção exclusiva de joias para piercing, serviços de tatuagem e muito mais'
+                : 'Peças únicas feitas com materiais premium para expressar sua personalidade'
             }
           </p>
         </div>
 
-        {/* Search Bar */}
-        <div className="max-w-xl mx-auto mb-6 md:mb-8">
-          <div className="relative">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-            <input
-              type="text"
-              placeholder="Buscar produtos..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full h-12 md:h-14 pl-12 pr-4 rounded-full bg-secondary border border-border focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all text-foreground placeholder:text-muted-foreground"
-            />
+        {/* Search Bar - Premium style */}
+        <div className="max-w-xl mx-auto mb-8 md:mb-10">
+          <div className="relative group">
+            <div className="absolute -inset-1 bg-gradient-to-r from-warm-yellow via-primary to-warm-red rounded-full blur opacity-20 group-focus-within:opacity-40 transition-opacity" />
+            <div className="relative">
+              <Search className="absolute left-5 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground group-focus-within:text-primary transition-colors" />
+              <input
+                type="text"
+                placeholder="O que você procura?"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="w-full h-14 md:h-16 pl-14 pr-6 rounded-full bg-card border border-border/50 focus:border-primary/50 focus:outline-none focus:ring-4 focus:ring-primary/10 transition-all text-foreground placeholder:text-muted-foreground shadow-sm"
+              />
+            </div>
           </div>
         </div>
 
-        {/* Category Pills - Horizontal Scroll */}
-        <div className="mb-6 md:mb-10">
-          <div className="flex gap-2 md:gap-3 overflow-x-auto scrollbar-hide pb-2">
+        {/* Category Pills - Premium design */}
+        <div className="mb-8 md:mb-12">
+          <div className="flex gap-2 md:gap-3 overflow-x-auto scrollbar-hide pb-3 px-1">
             <button
               onClick={() => handleSelectCategory(null, null)}
-              className={`flex-shrink-0 px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 transform ${
+              className={`btn-ripple flex-shrink-0 px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 ${
                 selectedCategory === null && selectedSubcategory === null
-                  ? 'bg-primary text-primary-foreground shadow-lg scale-105 ring-2 ring-primary/30' 
-                  : 'bg-secondary text-foreground hover:bg-secondary/80 hover:scale-102 active:scale-95'
+                  ? 'bg-gradient-to-r from-warm-yellow via-primary to-warm-red text-primary-foreground shadow-lg animate-glow-pulse' 
+                  : 'bg-card text-foreground border border-border/50 hover:border-primary/30 hover:bg-card/80 active:scale-95'
               }`}
             >
-              Todos
+              ✨ Todos
             </button>
             {categories.map((category) => (
               <div key={category.id} className="flex gap-2">
@@ -113,10 +126,10 @@ const ProductGrid = () => {
                   <button
                     key={sub}
                     onClick={() => handleSelectCategory(category.id, sub)}
-                    className={`flex-shrink-0 px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 transform whitespace-nowrap ${
+                    className={`btn-ripple flex-shrink-0 px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 whitespace-nowrap ${
                       selectedCategory === category.id && selectedSubcategory === sub
-                        ? 'bg-primary text-primary-foreground shadow-lg scale-105 ring-2 ring-primary/30 animate-scale-in'
-                        : 'bg-secondary text-foreground hover:bg-secondary/80 hover:scale-102 active:scale-95'
+                        ? 'bg-gradient-to-r from-warm-yellow via-primary to-warm-red text-primary-foreground shadow-lg animate-scale-in'
+                        : 'bg-card text-foreground border border-border/50 hover:border-primary/30 hover:bg-card/80 active:scale-95'
                     }`}
                   >
                     {subcategoryLabels[sub] || sub}
@@ -130,7 +143,7 @@ const ProductGrid = () => {
         {/* Products */}
         <div className="w-full">
           {isLoading ? (
-            <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3 md:gap-6">
+            <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
               {Array.from({ length: 8 }).map((_, i) => (
                 <ProductCardSkeleton key={i} />
               ))}
@@ -138,21 +151,29 @@ const ProductGrid = () => {
           ) : selectedCategory || selectedSubcategory || searchTerm ? (
             // Grid view when filtering
             filteredProducts.length > 0 ? (
-              <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3 md:gap-6">
-                {filteredProducts.map((product) => (
-                  <ProductCard key={product.id} product={product} />
+              <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
+                {filteredProducts.map((product, index) => (
+                  <div key={product.id} className="animate-slide-up" style={{ animationDelay: `${index * 0.05}s` }}>
+                    <ProductCard product={product} />
+                  </div>
                 ))}
               </div>
             ) : (
-              <div className="text-center py-12">
+              <div className="text-center py-16">
+                <div className="w-20 h-20 mx-auto mb-4 rounded-full bg-secondary flex items-center justify-center">
+                  <Search className="w-8 h-8 text-muted-foreground" />
+                </div>
                 <p className="text-muted-foreground text-lg">
-                  Nenhum produto encontrado nesta categoria.
+                  Nenhum produto encontrado
+                </p>
+                <p className="text-muted-foreground/60 text-sm mt-1">
+                  Tente buscar por outro termo
                 </p>
               </div>
             )
           ) : (
             // Carousel view for all products grouped by subcategory
-            <div className="space-y-2 md:space-y-4">
+            <div className="space-y-6 md:space-y-10">
               {categories.map((category) =>
                 category.subcategories.map((subcategory) => {
                   const subcategoryProducts = products.filter(

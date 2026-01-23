@@ -60,36 +60,36 @@ const ProductCarousel = ({ title, products, onViewAll }: ProductCarouselProps) =
   };
 
   return (
-    <div className="mb-8 md:mb-10">
+    <div className="mb-10 md:mb-14">
       {/* Section Header */}
-      <div className="flex items-center justify-between mb-3 md:mb-4">
-        <div className="flex items-center gap-2">
-          <div className="w-1 h-5 md:h-6 rounded-full bg-primary" />
-          <h3 className="text-base md:text-xl font-semibold text-foreground">
-            {title}
+      <div className="flex items-center justify-between mb-4 md:mb-6">
+        <div className="flex items-center gap-3">
+          <div className="w-1.5 h-6 md:h-8 rounded-full bg-gradient-to-b from-warm-yellow via-primary to-warm-red" />
+          <h3 className="text-lg md:text-2xl font-display tracking-wide text-foreground">
+            {title.toUpperCase()}
           </h3>
         </div>
         <div className="flex items-center gap-2">
           {onViewAll && (
             <button
               onClick={onViewAll}
-              className="text-xs md:text-sm text-primary hover:underline font-medium mr-2"
+              className="btn-ripple text-xs md:text-sm text-primary font-medium px-4 py-2 rounded-full border border-primary/30 hover:bg-primary/10 transition-all"
             >
-              Ver todos
+              Ver todos →
             </button>
           )}
-          {/* Navigation Arrows */}
+          {/* Navigation Arrows - Premium style */}
           <button
             onClick={() => scroll('left')}
-            className="hidden md:flex w-8 h-8 rounded-full border border-border bg-background hover:bg-secondary items-center justify-center transition-colors"
+            className="hidden md:flex w-10 h-10 rounded-full border border-border bg-card hover:bg-primary hover:text-primary-foreground hover:border-primary items-center justify-center transition-all duration-300 shadow-sm hover:shadow-md"
           >
-            <ChevronLeft className="h-4 w-4" />
+            <ChevronLeft className="h-5 w-5" />
           </button>
           <button
             onClick={() => scroll('right')}
-            className="hidden md:flex w-8 h-8 rounded-full border border-border bg-background hover:bg-secondary items-center justify-center transition-colors"
+            className="hidden md:flex w-10 h-10 rounded-full border border-border bg-card hover:bg-primary hover:text-primary-foreground hover:border-primary items-center justify-center transition-all duration-300 shadow-sm hover:shadow-md"
           >
-            <ChevronRight className="h-4 w-4" />
+            <ChevronRight className="h-5 w-5" />
           </button>
         </div>
       </div>
@@ -97,7 +97,7 @@ const ProductCarousel = ({ title, products, onViewAll }: ProductCarouselProps) =
       {/* Scrollable Product Row - Draggable */}
       <div 
         ref={scrollRef}
-        className={`flex gap-2 md:gap-3 overflow-x-auto scrollbar-hide scroll-smooth pb-2 select-none ${isDragging ? 'cursor-grabbing' : 'cursor-grab'}`}
+        className={`flex gap-3 md:gap-4 overflow-x-auto scrollbar-hide scroll-smooth pb-4 select-none -mx-2 px-2 ${isDragging ? 'cursor-grabbing' : 'cursor-grab'}`}
         style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
         onMouseDown={handleMouseDown}
         onMouseMove={handleMouseMove}
@@ -106,14 +106,20 @@ const ProductCarousel = ({ title, products, onViewAll }: ProductCarouselProps) =
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
       >
-        {products.map((product) => (
+        {products.map((product, index) => (
           <div 
             key={product.id} 
-            className="flex-shrink-0 w-[120px] md:w-[160px] lg:w-[180px]"
+            className="flex-shrink-0 w-[140px] md:w-[180px] lg:w-[200px] animate-fade-in"
+            style={{ animationDelay: `${index * 0.05}s` }}
           >
             <ProductCardCompact product={product} />
           </div>
         ))}
+      </div>
+
+      {/* Scroll indicator line */}
+      <div className="mt-2 h-0.5 w-full bg-border/30 rounded-full overflow-hidden">
+        <div className="h-full w-1/4 bg-gradient-to-r from-warm-yellow via-primary to-warm-red rounded-full" />
       </div>
     </div>
   );
