@@ -3,8 +3,6 @@ import { products, categories, subcategoryLabels } from '@/data/products';
 import ProductCard from './ProductCard';
 import ProductCardSkeleton from './ProductCardSkeleton';
 import ProductCarousel from './ProductCarousel';
-import CategorySidebar from './CategorySidebar';
-import MobileCategoryFilter from './MobileCategoryFilter';
 import { Search } from 'lucide-react';
 
 const ProductGrid = () => {
@@ -83,7 +81,7 @@ const ProductGrid = () => {
         </div>
 
         {/* Search Bar */}
-        <div className="max-w-xl mx-auto mb-6 md:mb-12">
+        <div className="max-w-xl mx-auto mb-6 md:mb-8">
           <div className="relative">
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
             <input
@@ -96,66 +94,82 @@ const ProductGrid = () => {
           </div>
         </div>
 
-        {/* Mobile Category Filter */}
-        <MobileCategoryFilter
-          selectedCategory={selectedCategory}
-          selectedSubcategory={selectedSubcategory}
-          onSelectCategory={handleSelectCategory}
-        />
-
-        <div className="flex flex-row gap-8">
-          {/* Desktop Sidebar - Hidden on mobile */}
-          <div className="hidden md:block">
-            <CategorySidebar 
-              selectedCategory={selectedCategory}
-              selectedSubcategory={selectedSubcategory}
-              onSelectCategory={handleSelectCategory}
-            />
-          </div>
-          
-          <div className="flex-1">
-            {isLoading ? (
-              <div className="grid grid-cols-2 md:grid-cols-2 xl:grid-cols-3 gap-3 md:gap-6">
-                {Array.from({ length: 6 }).map((_, i) => (
-                  <ProductCardSkeleton key={i} />
+        {/* Category Pills - Horizontal Scroll */}
+        <div className="mb-6 md:mb-10">
+          <div className="flex gap-2 md:gap-3 overflow-x-auto scrollbar-hide pb-2">
+            <button
+              onClick={() => handleSelectCategory(null, null)}
+              className={`flex-shrink-0 px-4 py-2 rounded-full text-sm font-medium transition-all ${
+                selectedCategory === null && selectedSubcategory === null
+                  ? 'bg-primary text-primary-foreground shadow-md' 
+                  : 'bg-secondary text-foreground hover:bg-secondary/80'
+              }`}
+            >
+              Todos
+            </button>
+            {categories.map((category) => (
+              <div key={category.id} className="flex gap-2">
+                {category.subcategories.map((sub) => (
+                  <button
+                    key={sub}
+                    onClick={() => handleSelectCategory(category.id, sub)}
+                    className={`flex-shrink-0 px-4 py-2 rounded-full text-sm font-medium transition-all whitespace-nowrap ${
+                      selectedCategory === category.id && selectedSubcategory === sub
+                        ? 'bg-primary text-primary-foreground shadow-md'
+                        : 'bg-secondary text-foreground hover:bg-secondary/80'
+                    }`}
+                  >
+                    {subcategoryLabels[sub] || sub}
+                  </button>
                 ))}
               </div>
-            ) : selectedCategory || selectedSubcategory || searchTerm ? (
-              // Grid view when filtering
-              filteredProducts.length > 0 ? (
-                <div className="grid grid-cols-2 md:grid-cols-2 xl:grid-cols-3 gap-3 md:gap-6">
-                  {filteredProducts.map((product) => (
-                    <ProductCard key={product.id} product={product} />
-                  ))}
-                </div>
-              ) : (
-                <div className="text-center py-12">
-                  <p className="text-muted-foreground text-lg">
-                    Nenhum produto encontrado nesta categoria.
-                  </p>
-                </div>
-              )
-            ) : (
-              // Carousel view for all products grouped by subcategory
-              <div className="space-y-2 md:space-y-4">
-                {categories.map((category) =>
-                  category.subcategories.map((subcategory) => {
-                    const subcategoryProducts = products.filter(
-                      (p) => p.subcategory === subcategory
-                    );
-                    return (
-                      <ProductCarousel
-                        key={subcategory}
-                        title={subcategoryLabels[subcategory] || subcategory}
-                        products={subcategoryProducts}
-                        onViewAll={() => handleSelectCategory(category.id, subcategory)}
-                      />
-                    );
-                  })
-                )}
-              </div>
-            )}
+            ))}
           </div>
+        </div>
+
+        {/* Products */}
+        <div className="w-full">
+          {isLoading ? (
+            <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3 md:gap-6">
+              {Array.from({ length: 8 }).map((_, i) => (
+                <ProductCardSkeleton key={i} />
+              ))}
+            </div>
+          ) : selectedCategory || selectedSubcategory || searchTerm ? (
+            // Grid view when filtering
+            filteredProducts.length > 0 ? (
+              <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3 md:gap-6">
+                {filteredProducts.map((product) => (
+                  <ProductCard key={product.id} product={product} />
+                ))}
+              </div>
+            ) : (
+              <div className="text-center py-12">
+                <p className="text-muted-foreground text-lg">
+                  Nenhum produto encontrado nesta categoria.
+                </p>
+              </div>
+            )
+          ) : (
+            // Carousel view for all products grouped by subcategory
+            <div className="space-y-2 md:space-y-4">
+              {categories.map((category) =>
+                category.subcategories.map((subcategory) => {
+                  const subcategoryProducts = products.filter(
+                    (p) => p.subcategory === subcategory
+                  );
+                  return (
+                    <ProductCarousel
+                      key={subcategory}
+                      title={subcategoryLabels[subcategory] || subcategory}
+                      products={subcategoryProducts}
+                      onViewAll={() => handleSelectCategory(category.id, subcategory)}
+                    />
+                  );
+                })
+              )}
+            </div>
+          )}
         </div>
       </div>
     </section>
