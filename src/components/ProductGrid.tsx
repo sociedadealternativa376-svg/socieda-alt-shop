@@ -99,10 +99,10 @@ const ProductGrid = () => {
           <div className="flex gap-2 md:gap-3 overflow-x-auto scrollbar-hide pb-2">
             <button
               onClick={() => handleSelectCategory(null, null)}
-              className={`flex-shrink-0 px-4 py-2 rounded-full text-sm font-medium transition-all ${
+              className={`flex-shrink-0 px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 transform ${
                 selectedCategory === null && selectedSubcategory === null
-                  ? 'bg-primary text-primary-foreground shadow-md' 
-                  : 'bg-secondary text-foreground hover:bg-secondary/80'
+                  ? 'bg-primary text-primary-foreground shadow-lg scale-105 ring-2 ring-primary/30' 
+                  : 'bg-secondary text-foreground hover:bg-secondary/80 hover:scale-102 active:scale-95'
               }`}
             >
               Todos
@@ -113,10 +113,10 @@ const ProductGrid = () => {
                   <button
                     key={sub}
                     onClick={() => handleSelectCategory(category.id, sub)}
-                    className={`flex-shrink-0 px-4 py-2 rounded-full text-sm font-medium transition-all whitespace-nowrap ${
+                    className={`flex-shrink-0 px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 transform whitespace-nowrap ${
                       selectedCategory === category.id && selectedSubcategory === sub
-                        ? 'bg-primary text-primary-foreground shadow-md'
-                        : 'bg-secondary text-foreground hover:bg-secondary/80'
+                        ? 'bg-primary text-primary-foreground shadow-lg scale-105 ring-2 ring-primary/30 animate-scale-in'
+                        : 'bg-secondary text-foreground hover:bg-secondary/80 hover:scale-102 active:scale-95'
                     }`}
                   >
                     {subcategoryLabels[sub] || sub}
