@@ -30,7 +30,7 @@ const ProductCardCompact = ({ product }: ProductCardCompactProps) => {
       onClick={handleViewProduct}
     >
       {/* Image Container */}
-      <div className="relative bg-gradient-to-b from-secondary/30 to-secondary/50 p-3 rounded-t-xl overflow-hidden">
+      <div className="relative bg-white p-3 rounded-t-xl overflow-hidden">
         {/* Shine effect on hover */}
         <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-out" />
         
