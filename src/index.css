@@ -1,44 +1,36 @@
+@import url('https://fonts.googleapis.com/css2?family=YourFont+Name&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Define your custom utilities here */
-
-@font-face {
-  font-family: 'CustomFont';
-  src: url('/fonts/CustomFont.woff2') format('woff2');
+:root {
+  --color-primary: #ff5733;
+  --color-secondary: #33c1ff;
+  --gradient-primary: linear-gradient(to right, var(--color-primary), var(--color-secondary));
+  /* Add other CSS variables as needed */
 }
 
-body {
-  font-family: 'CustomFont', sans-serif;
-  background-color: #f9fafb; /* Tailwind Gray 50 */
-}
+/* Tailwind Custom Styles */
 
-.text-custom {
-  color: #1f2937; /* Tailwind Gray 800 */
-}
-
-.bg-custom {
-  background-color: #4f46e5; /* Tailwind Indigo 600 */
-}
-
-.animate-custom {
-  animation: bounce 2s infinite;
-}
-
-@keyframes bounce {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-1rem);
-  }
-}
-
-/* Add your components styles */
 .button {
-  @apply px-4 py-2 bg-blue-500 text-white font-bold rounded;
+  @apply bg-primary text-white font-bold py-2 px-4 rounded;
+  transition: background-color 0.3s;
 }
-.card {
-  @apply border bg-white rounded-lg shadow-md;
+
+.button:hover {
+  @apply bg-secondary;
 }
+
+/* Add your custom components and animations here */
+
+.component {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Your additional custom styles */
