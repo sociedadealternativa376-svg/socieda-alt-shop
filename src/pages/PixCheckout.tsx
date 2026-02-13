@@ -1,438 +1,323 @@
-import { useState, useEffect, useCallback } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { Copy, Check, Clock, QrCode, AlertCircle, ArrowLeft, CreditCard, Loader2 } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Progress } from '@/components/ui/progress';
-import { Skeleton } from '@/components/ui/skeleton';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { toast } from '@/hooks/use-toast';
-import { cn } from '@/lib/utils';
-import { useAuth } from '@/context/AuthContext';
-import { useMercadoPago } from '@/hooks/useMercadoPago';
-import { CartItem } from '@/types/product';
+import { useState, useEffect, useCallback } from "react"
+import { useLocation, useNavigate } from "react-router-dom"
+import { Copy, Check, Clock, QrCode, AlertCircle, ArrowLeft } from "lucide-react"
+
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Progress } from "@/components/ui/progress"
+import { Skeleton } from "@/components/ui/skeleton"
+import { toast } from "@/hooks/use-toast"
+import { cn } from "@/lib/utils"
+import { useAuth } from "@/context/AuthContext"
+import { CartItem } from "@/types/product"
 
 interface OrderData {
-  items: CartItem[];
-  total: number;
-  orderId: string;
+  items: CartItem[]
+  total: number
+  orderId: string
 }
 
 const PixCheckout = () => {
-  const location = useLocation();
-  const navigate = useNavigate();
-  const { user, loading: authLoading } = useAuth();
-  const { isLoaded: mpLoaded, isLoading: mpLoading, error: mpError, publicKey } = useMercadoPago();
-  
-  const orderData = location.state as OrderData | null;
-  
-  const [timeLeft, setTimeLeft] = useState(600); // 10 minutes
-  const [copied, setCopied] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
-  const [status, setStatus] = useState<'pending' | 'paid' | 'expired'>('pending');
-  const [paymentMethod, setPaymentMethod] = useState<'pix' | 'card'>('pix');
 
-  // Mock Pix code - in production this would come from API
-  const pixCode = '00020126580014br.gov.bcb.pix0136a629534e-7693-4846-b028-example5204000053039865802BR5925LOJA EXEMPLO LTDA6009SAO PAULO62070503***6304ABCD';
+  const location = useLocation()
+  const navigate = useNavigate()
+  const { user, loading: authLoading } = useAuth()
 
-  // Log Mercado Pago SDK status
+  const orderData = location.state as OrderData | null
+
+  const [timeLeft, setTimeLeft] = useState(600)
+  const [pixCode, setPixCode] = useState("")
+  const [pixImage, setPixImage] = useState("")
+  const [paymentId, setPaymentId] = useState("")
+  const [copied, setCopied] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
+  const [status, setStatus] = useState<"pending" | "paid" | "expired">("pending")
+
+  // 🔐 Proteção rota
   useEffect(() => {
-    if (mpLoaded) {
-      console.log('✅ Mercado Pago SDK pronto para uso');
-      console.log('🔑 Public Key:', publicKey.substring(0, 25) + '...');
-      console.log('💳 Métodos habilitados: Pix, Cartão de Crédito (com parcelas)');
-    }
-    if (mpError) {
-      console.error('❌ Erro no Mercado Pago:', mpError);
-    }
-  }, [mpLoaded, mpError, publicKey]);
 
-  // Redirect if not logged in
-  useEffect(() => {
     if (!authLoading && !user) {
-      toast({
-        title: "Login necessário",
-        description: "Faça login para continuar com o pagamento.",
-        variant: "destructive",
-      });
-      navigate('/auth', { state: { from: '/checkout/pix', orderData } });
+      navigate("/auth")
+      return
     }
-  }, [user, authLoading, navigate, orderData]);
 
-  // Redirect if no order data
-  useEffect(() => {
     if (!authLoading && user && !orderData) {
-      toast({
-        title: "Carrinho vazio",
-        description: "Adicione produtos ao carrinho para fazer o checkout.",
-        variant: "destructive",
-      });
-      navigate('/');
+      navigate("/")
     }
-  }, [orderData, user, authLoading, navigate]);
 
-  // Simulate loading
-  useEffect(() => {
-    const timer = setTimeout(() => setIsLoading(false), 1500);
-    return () => clearTimeout(timer);
-  }, []);
+  }, [user, authLoading, orderData, navigate])
 
-  // Countdown timer
+
+  // 🚀 GERAR PIX
   useEffect(() => {
-    if (status !== 'pending' || timeLeft <= 0) return;
+
+    if (!user || !orderData) return
+
+    gerarPix()
+
+  }, [user, orderData])
+
+
+  // ⏱ TIMER
+  useEffect(() => {
+
+    if (status !== "pending" || timeLeft <= 0) return
 
     const interval = setInterval(() => {
-      setTimeLeft((prev) => {
-        if (prev <= 1) {
-          setStatus('expired');
-          return 0;
-        }
-        return prev - 1;
-      });
-    }, 1000);
 
-    return () => clearInterval(interval);
-  }, [status, timeLeft]);
+      setTimeLeft(prev => {
+
+        if (prev <= 1) {
+          setStatus("expired")
+          return 0
+        }
+
+        return prev - 1
+      })
+
+    }, 1000)
+
+    return () => clearInterval(interval)
+
+  }, [status, timeLeft])
+
 
   const formatTime = useCallback((seconds: number) => {
-    const mins = Math.floor(seconds / 60);
-    const secs = seconds % 60;
-    return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
-  }, []);
 
-  const handleCopyCode = async () => {
+    const mins = Math.floor(seconds / 60)
+    const secs = seconds % 60
+
+    return `${mins.toString().padStart(2, "0")}:${secs.toString().padStart(2, "0")}`
+
+  }, [])
+
+
+  // 📲 GERAR PIX BACKEND
+  const gerarPix = async () => {
+
     try {
-      await navigator.clipboard.writeText(pixCode);
-      setCopied(true);
-      toast({
-        title: "Código copiado!",
-        description: "Cole no app do seu banco para pagar.",
-      });
-      setTimeout(() => setCopied(false), 3000);
+
+      setIsLoading(true)
+
+      const response = await fetch("http://localhost:3000/pix", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          valor: orderData?.total,
+          email: user?.email
+        })
+      })
+
+      const data = await response.json()
+
+      const pixData = data.point_of_interaction.transaction_data
+
+      setPixCode(pixData.qr_code)
+      setPixImage(pixData.qr_code_base64)
+      setPaymentId(data.id)
+
     } catch (err) {
+
+      console.error(err)
+
       toast({
-        title: "Erro ao copiar",
-        description: "Tente selecionar e copiar manualmente.",
-        variant: "destructive",
-      });
+        title: "Erro Pix",
+        description: "Erro ao gerar pagamento Pix",
+        variant: "destructive"
+      })
+
     }
-  };
 
-  const handleConfirmPayment = () => {
-    // In production, this would verify with API
-    // For now, simulate success
-    setStatus('paid');
-    toast({
-      title: "Verificando pagamento...",
-      description: "Aguarde enquanto confirmamos seu pagamento.",
-    });
-    
-    setTimeout(() => {
-      navigate('/checkout/sucesso', { 
-        state: { 
-          orderId: orderData?.orderId,
-          total: orderData?.total,
-          items: orderData?.items
-        } 
-      });
-    }, 2000);
-  };
-
-  const progressPercentage = (timeLeft / 600) * 100;
-
-  const getStatusConfig = () => {
-    switch (status) {
-      case 'paid':
-        return {
-          label: 'Pagamento confirmado',
-          color: 'text-green-600 dark:text-green-400',
-          bgColor: 'bg-green-50 dark:bg-green-950/30',
-          borderColor: 'border-green-200 dark:border-green-800',
-        };
-      case 'expired':
-        return {
-          label: 'Pagamento expirado',
-          color: 'text-destructive',
-          bgColor: 'bg-destructive/10',
-          borderColor: 'border-destructive/20',
-        };
-      default:
-        return {
-          label: 'Aguardando pagamento',
-          color: 'text-amber-600 dark:text-amber-400',
-          bgColor: 'bg-amber-50 dark:bg-amber-950/30',
-          borderColor: 'border-amber-200 dark:border-amber-800',
-        };
-    }
-  };
-
-  const statusConfig = getStatusConfig();
-
-  // Show loading while checking auth
-  if (authLoading) {
-    return (
-      <div className="min-h-screen bg-gradient-to-b from-background to-secondary/20 flex items-center justify-center p-4">
-        <Card className="w-full max-w-md">
-          <CardContent className="py-12">
-            <div className="flex flex-col items-center gap-4">
-              <Skeleton className="h-8 w-48" />
-              <Skeleton className="h-56 w-56 rounded-xl" />
-              <Skeleton className="h-12 w-full" />
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-    );
+    setIsLoading(false)
   }
 
-  if (!user || !orderData) {
-    return null;
+
+  // 📋 COPIAR PIX
+  const handleCopyCode = async () => {
+
+    try {
+
+      await navigator.clipboard.writeText(pixCode)
+
+      setCopied(true)
+
+      toast({
+        title: "Código copiado",
+        description: "Cole no app do banco"
+      })
+
+      setTimeout(() => setCopied(false), 2000)
+
+    } catch {
+
+      toast({
+        title: "Erro",
+        description: "Não foi possível copiar",
+        variant: "destructive"
+      })
+
+    }
+
   }
+
+
+  // ✅ CONFIRMAR PAGAMENTO
+  const handleConfirmPayment = async () => {
+
+    try {
+
+      const res = await fetch(`http://localhost:3000/pix/status/${paymentId}`)
+      const data = await res.json()
+
+      if (data.status === "approved") {
+
+        setStatus("paid")
+
+        toast({
+          title: "Pagamento aprovado",
+          description: "Pix confirmado"
+        })
+
+        setTimeout(() => {
+          navigate("/checkout/sucesso", {
+            state: orderData
+          })
+        }, 1200)
+
+      } else {
+
+        toast({
+          title: "Ainda pendente",
+          description: "Pagamento ainda não confirmado"
+        })
+
+      }
+
+    } catch {
+
+      toast({
+        title: "Erro",
+        description: "Erro ao verificar pagamento",
+        variant: "destructive"
+      })
+
+    }
+
+  }
+
+
+  if (authLoading || !user || !orderData) return null
+
+
+  const progress = (timeLeft / 600) * 100
+
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-background to-secondary/20 flex items-center justify-center p-4">
-      <Card className="w-full max-w-md shadow-xl border-border/50 animate-fade-in">
-        <CardHeader className="text-center pb-4">
+
+    <div className="min-h-screen flex items-center justify-center p-4">
+
+      <Card className="w-full max-w-md">
+
+        <CardHeader className="text-center">
+
           <Button
             variant="ghost"
             size="sm"
-            onClick={() => navigate('/')}
+            onClick={() => navigate("/")}
             className="absolute left-4 top-4"
           >
-            <ArrowLeft className="h-4 w-4 mr-1" />
+            <ArrowLeft className="w-4 h-4 mr-1" />
             Voltar
           </Button>
-          <CardTitle className="text-2xl font-display tracking-wide">
-            Pagamento via Pix
-          </CardTitle>
-          <p className="text-muted-foreground text-sm mt-1">
-            Pedido #{orderData.orderId}
-          </p>
+
+          <CardTitle>Pagamento Pix</CardTitle>
+
         </CardHeader>
 
-        <CardContent className="space-y-6">
-          {/* Status Badge */}
-          <div
-            className={cn(
-              "flex items-center justify-center gap-2 py-2 px-4 rounded-full border text-sm font-medium mx-auto w-fit transition-all",
-              statusConfig.bgColor,
-              statusConfig.borderColor,
-              statusConfig.color
+
+        <CardContent className="space-y-5">
+
+          <div className="text-center text-sm">
+            Pedido #{orderData.orderId}
+          </div>
+
+
+          {/* QR CODE */}
+          <div className="flex justify-center">
+
+            {isLoading ? (
+
+              <Skeleton className="w-56 h-56 rounded-xl" />
+
+            ) : (
+
+              <div className="p-4 bg-white rounded-xl">
+
+                <img
+                  src={`data:image/png;base64,${pixImage}`}
+                  className="w-48 h-48"
+                />
+
+              </div>
+
             )}
+
+          </div>
+
+
+          {/* TIMER */}
+          {status === "pending" && (
+
+            <div>
+
+              <div className="flex justify-between text-sm mb-1">
+                <span>Tempo restante</span>
+                <span>{formatTime(timeLeft)}</span>
+              </div>
+
+              <Progress value={progress} />
+
+            </div>
+
+          )}
+
+
+          {/* PIX COPIA */}
+          <div className="space-y-2">
+
+            <div className="text-xs break-all bg-muted p-2 rounded">
+              {pixCode}
+            </div>
+
+            <Button
+              onClick={handleCopyCode}
+              disabled={isLoading}
+              className="w-full"
+            >
+              {copied ? "Copiado ✅" : "Copiar código Pix"}
+            </Button>
+
+          </div>
+
+
+          <Button
+            variant="outline"
+            onClick={handleConfirmPayment}
+            disabled={status !== "pending"}
+            className="w-full"
           >
-            {status === 'pending' && <Clock className="h-4 w-4 animate-pulse" />}
-            {status === 'expired' && <AlertCircle className="h-4 w-4" />}
-            {status === 'paid' && <Check className="h-4 w-4" />}
-            {statusConfig.label}
-          </div>
+            Já paguei
+          </Button>
 
-          {/* SDK Status Indicator */}
-          {mpLoading && (
-            <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
-              <Loader2 className="h-4 w-4 animate-spin" />
-              Carregando SDK Mercado Pago...
-            </div>
-          )}
-          {mpLoaded && (
-            <div className="flex items-center justify-center gap-2 text-xs text-green-600 dark:text-green-400">
-              <Check className="h-3 w-3" />
-              Mercado Pago pronto
-            </div>
-          )}
-          {mpError && (
-            <div className="flex items-center justify-center gap-2 text-xs text-destructive">
-              <AlertCircle className="h-3 w-3" />
-              Erro ao carregar Mercado Pago
-            </div>
-          )}
-
-          {/* Order Summary */}
-          <div className="bg-secondary/30 rounded-lg p-3 space-y-2">
-            <p className="text-xs text-muted-foreground font-medium uppercase tracking-wide">
-              Resumo do pedido
-            </p>
-            <div className="space-y-1 max-h-24 overflow-y-auto">
-              {orderData.items.map((item) => (
-                <div key={item.id} className="flex justify-between text-sm">
-                  <span className="text-foreground">
-                    {item.quantity}x {item.name}
-                  </span>
-                  <span className="text-muted-foreground">
-                    R$ {(item.price * item.quantity).toFixed(2).replace('.', ',')}
-                  </span>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Total Value */}
-          <div className="text-center">
-            <p className="text-muted-foreground text-sm">Valor total</p>
-            <p className="text-3xl font-bold text-foreground">
-              R$ {orderData.total.toFixed(2).replace('.', ',')}
-            </p>
-          </div>
-
-          {/* Payment Method Tabs */}
-          <Tabs value={paymentMethod} onValueChange={(v) => setPaymentMethod(v as 'pix' | 'card')} className="w-full">
-            <TabsList className="grid w-full grid-cols-2">
-              <TabsTrigger value="pix" className="gap-2">
-                <QrCode className="h-4 w-4" />
-                Pix
-              </TabsTrigger>
-              <TabsTrigger value="card" className="gap-2">
-                <CreditCard className="h-4 w-4" />
-                Cartão
-              </TabsTrigger>
-            </TabsList>
-
-            {/* Pix Payment Tab */}
-            <TabsContent value="pix" className="space-y-4 mt-4">
-              {/* QR Code */}
-              <div className="flex justify-center">
-                {isLoading ? (
-                  <Skeleton className="w-56 h-56 rounded-xl" />
-                ) : (
-                  <div className="relative p-4 bg-white rounded-xl shadow-inner border border-border/30">
-                    <div className="w-48 h-48 flex flex-col items-center justify-center gap-3 text-muted-foreground">
-                      <QrCode className="w-24 h-24 opacity-30" />
-                      <span className="text-xs text-center">
-                        QR Code será exibido aqui
-                      </span>
-                    </div>
-                    {status === 'expired' && (
-                      <div className="absolute inset-0 bg-background/80 backdrop-blur-sm rounded-xl flex items-center justify-center">
-                        <p className="text-destructive font-medium">Expirado</p>
-                      </div>
-                    )}
-                  </div>
-                )}
-              </div>
-
-              {/* Timer with Progress */}
-              {status === 'pending' && (
-                <div className="space-y-2">
-                  <div className="flex items-center justify-between text-sm">
-                    <span className="text-muted-foreground">Tempo restante</span>
-                    <span className={cn(
-                      "font-mono font-bold",
-                      timeLeft <= 60 ? "text-destructive" : "text-foreground"
-                    )}>
-                      {formatTime(timeLeft)}
-                    </span>
-                  </div>
-                  <Progress 
-                    value={progressPercentage} 
-                    className={cn(
-                      "h-2 transition-all",
-                      timeLeft <= 60 && "[&>div]:bg-destructive"
-                    )}
-                  />
-                </div>
-              )}
-
-              {/* Pix Copy & Paste */}
-              <div className="space-y-3">
-                <label className="text-sm font-medium text-foreground">
-                  Pix Copia e Cola
-                </label>
-                {isLoading ? (
-                  <Skeleton className="h-20 w-full rounded-lg" />
-                ) : (
-                  <div className="relative">
-                    <div className="p-3 bg-secondary/50 rounded-lg border border-border/50 text-xs font-mono text-muted-foreground break-all max-h-20 overflow-y-auto">
-                      {pixCode}
-                    </div>
-                  </div>
-                )}
-                <Button
-                  onClick={handleCopyCode}
-                  disabled={isLoading || status === 'expired'}
-                  className={cn(
-                    "w-full h-12 text-base font-medium transition-all",
-                    copied 
-                      ? "bg-green-600 hover:bg-green-600 text-white" 
-                      : "bg-primary hover:bg-primary/90"
-                  )}
-                >
-                  {copied ? (
-                    <>
-                      <Check className="h-5 w-5 mr-2" />
-                      Código copiado!
-                    </>
-                  ) : (
-                    <>
-                      <Copy className="h-5 w-5 mr-2" />
-                      Copiar código
-                    </>
-                  )}
-                </Button>
-              </div>
-
-              {/* Already Paid Button */}
-              <Button
-                variant="outline"
-                disabled={status !== 'pending'}
-                onClick={handleConfirmPayment}
-                className="w-full h-12 text-base border-2"
-              >
-                Já paguei
-              </Button>
-            </TabsContent>
-
-            {/* Credit Card Payment Tab */}
-            <TabsContent value="card" className="space-y-4 mt-4">
-              <div className="bg-secondary/30 rounded-lg p-6 space-y-4">
-                <div className="text-center">
-                  <CreditCard className="h-12 w-12 mx-auto mb-3 text-muted-foreground" />
-                  <h3 className="font-medium text-foreground mb-1">
-                    Pagamento com Cartão
-                  </h3>
-                  <p className="text-sm text-muted-foreground">
-                    Pague em até 12x no cartão de crédito
-                  </p>
-                </div>
-
-                {mpLoaded ? (
-                  <div className="space-y-3">
-                    <p className="text-xs text-center text-green-600 dark:text-green-400">
-                      ✅ SDK Mercado Pago carregado
-                    </p>
-                    <p className="text-xs text-center text-muted-foreground">
-                      Formulário de cartão será implementado com o backend
-                    </p>
-                    <Button
-                      disabled
-                      className="w-full h-12 text-base"
-                    >
-                      <CreditCard className="h-5 w-5 mr-2" />
-                      Em breve
-                    </Button>
-                  </div>
-                ) : (
-                  <div className="flex items-center justify-center gap-2 py-4">
-                    <Loader2 className="h-5 w-5 animate-spin" />
-                    <span className="text-sm text-muted-foreground">
-                      Carregando...
-                    </span>
-                  </div>
-                )}
-              </div>
-            </TabsContent>
-          </Tabs>
-
-          {/* Instructions */}
-          <div className="pt-4 border-t border-border/50">
-            <p className="text-xs text-muted-foreground text-center leading-relaxed">
-              {paymentMethod === 'pix' 
-                ? 'Abra o app do seu banco, escolha pagar com Pix e escaneie o QR Code ou cole o código acima.'
-                : 'Pague com segurança usando seu cartão de crédito em até 12x.'}
-            </p>
-          </div>
         </CardContent>
-      </Card>
-    </div>
-  );
-};
 
-export default PixCheckout;
+      </Card>
+
+    </div>
+
+  )
+}
+
+export default PixCheckout
