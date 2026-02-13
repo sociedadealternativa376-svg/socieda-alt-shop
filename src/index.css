@@ -1,36 +1,44 @@
-@import url('https://fonts.googleapis.com/css2?family=YourFont+Name&display=swap');
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  --color-primary: #ff5733;
-  --color-secondary: #33c1ff;
-  --gradient-primary: linear-gradient(to right, var(--color-primary), var(--color-secondary));
-  /* Add other CSS variables as needed */
-}
-
-/* Tailwind Custom Styles */
-
-.button {
-  @apply bg-primary text-white font-bold py-2 px-4 rounded;
-  transition: background-color 0.3s;
-}
-
-.button:hover {
-  @apply bg-secondary;
-}
-
-/* Add your custom components and animations here */
-
-.component {
-  animation: fadeIn 0.5s ease-in-out;
+    --primary-color: #1da1f2;
+    --secondary-color: #14171a;
+    --accent-color: #f5f8fa;
+    --text-color: #657786;
+    --background-color: #ffffff;
+    --glass-morphism-bg: rgba(255, 255, 255, 0.2);
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+    0% { opacity: 0; }
+    100% { opacity: 1; }
 }
 
-/* Your additional custom styles */
+@keyframes slideIn {
+    0% { transform: translateY(100%); }
+    100% { transform: translateY(0); }
+}
+
+.glass-morphism {
+    background: var(--glass-morphism-bg);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.premium-card {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    transition: transform 0.3s;
+}
+
+.premium-card:hover {
+    transform: scale(1.05);
+}
+
+.utility-animation {
+    animation: fadeIn 1s ease-in;
+}
