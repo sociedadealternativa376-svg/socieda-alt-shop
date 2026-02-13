@@ -1,22 +1,13 @@
-8 vulnerabilidades (4 moderadas, 4 altas)
-Para resolver todos os problemas, execute:
-  correção de auditoria do npm
-Execute `npm audit` para obter detalhes.
-> vite_react_shadcn_ts@0.0.0 build
-> construção vite
-vite v5.4.19 compilando para produção...
-transformando...
-✓ 4 módulos transformados.
-A compilação falhou em 312ms.
-Erro durante a compilação:
-[vite:css] [postcss] /vercel/path0/src/index.css:39:9: Palavra desconhecida HEAD
-arquivo: /vercel/path0/src/index.css:39:8
-    em Input.error (/vercel/path0/node_modules/postcss/lib/input.js:135:16)
-    em Parser.unknownWord (/vercel/path0/node_modules/postcss/lib/parser.js:595:22)
-    em Parser.decl (/vercel/path0/node_modules/postcss/lib/parser.js:236:16)
-    em Parser.other (/vercel/path0/node_modules/postcss/lib/parser.js:401:18)
-    em Parser.parse (/vercel/path0/node_modules/postcss/lib/parser.js:472:16)
-    em parse (/vercel/path0/node_modules/postcss/lib/parse.js:11:12)
-    em novo LazyResult (/vercel/path0/node_modules/postcss/lib/lazy-result.js:165:16)
-    em Processor.process (/vercel/path0/node_modules/postcss/lib/processor.js:53:14)
-    em compileCSS (file:///vercel/path0/node_modules/vite/dist/node/chunks/dep-C6uTJdX2.js:36898:59)
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #f9fafb;
+    color: #111827;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 600;
+}
