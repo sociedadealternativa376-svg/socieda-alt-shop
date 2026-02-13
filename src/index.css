@@ -2,12 +2,43 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-    font-family: 'Inter', sans-serif;
-    background-color: #f9fafb;
-    color: #111827;
+/* Define your custom utilities here */
+
+@font-face {
+  font-family: 'CustomFont';
+  src: url('/fonts/CustomFont.woff2') format('woff2');
 }
 
-h1, h2, h3, h4, h5, h6 {
-    font-weight: 600;
+body {
+  font-family: 'CustomFont', sans-serif;
+  background-color: #f9fafb; /* Tailwind Gray 50 */
+}
+
+.text-custom {
+  color: #1f2937; /* Tailwind Gray 800 */
+}
+
+.bg-custom {
+  background-color: #4f46e5; /* Tailwind Indigo 600 */
+}
+
+.animate-custom {
+  animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-1rem);
+  }
+}
+
+/* Add your components styles */
+.button {
+  @apply px-4 py-2 bg-blue-500 text-white font-bold rounded;
+}
+.card {
+  @apply border bg-white rounded-lg shadow-md;
 }
